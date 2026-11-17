@@ -2,15 +2,15 @@
 const MAWAR = {
   settings: { dpPercent: 50, galleryDays: 30, muaLeadMin: 60, bufferMin: 15, maxFavorites: 20 },
   rooms: [
-    { id: "putih", name: "Studio Putih", desc: "Daylight, minimalis, cocok untuk graduation", cap: 6, perHour: 400000, bg: "radial-gradient(ellipse at 50% 85%, #ffffff 0 30%, transparent 60%), linear-gradient(180deg, #f4f1ec 0 62%, #e6e0d7 62% 100%)" },
-    { id: "rose", name: "Studio Rose", desc: "Hangat, vintage, favorit prewedding", cap: 4, perHour: 450000, bg: "radial-gradient(ellipse at 30% 30%, #f3d3d3 0 25%, transparent 55%), linear-gradient(180deg, #d9a3a3 0 62%, #b98078 62% 100%)" },
-    { id: "hitam", name: "Studio Hitam", desc: "Low-key, dramatis, untuk konsep editorial", cap: 8, perHour: 350000, bg: "radial-gradient(ellipse at 70% 35%, #5a5550 0 12%, transparent 45%), linear-gradient(180deg, #2a2725 0 62%, #1b1918 62% 100%)" },
+    { id: "putih", name: "Studio Putih", desc: "Daylight, minimalis, cocok untuk graduation", cap: 6, perHour: 400000, img: "https://images.unsplash.com/photo-1726650680145-d441d5882bdb" },
+    { id: "rose", name: "Studio Rose", desc: "Hangat, vintage, favorit prewedding", cap: 4, perHour: 450000, img: "https://images.unsplash.com/photo-1647427854253-b92bb40c9330" },
+    { id: "hitam", name: "Studio Hitam", desc: "Low-key, dramatis, untuk konsep editorial", cap: 8, perHour: 350000, img: "https://images.unsplash.com/photo-1634148739677-a5bb54df2611" },
   ],
   sessions: [
-    { id: "prewed", name: "Prewedding", hours: 3, desc: "3 jam, 2 konsep baju" },
-    { id: "grad", name: "Graduation", hours: 1, desc: "1 jam, sampai 6 orang" },
-    { id: "family", name: "Family / Personal", hours: 1, desc: "1 jam, bebas konsep" },
-    { id: "rent", name: "Sewa studio saja", hours: 2, desc: "Bawa tim sendiri, per jam" },
+    { id: "prewed", name: "Prewedding", hours: 3, desc: "3 jam, 2 konsep baju", img: "https://images.unsplash.com/photo-1554384032-56ff486b6cd4" },
+    { id: "grad", name: "Graduation", hours: 1, desc: "1 jam, sampai 6 orang", img: "https://images.unsplash.com/photo-1551728339-499b333c5c43" },
+    { id: "family", name: "Family / Personal", hours: 1, desc: "1 jam, bebas konsep", img: "https://images.unsplash.com/photo-1760328249117-18488466e34c" },
+    { id: "rent", name: "Sewa studio saja", hours: 2, desc: "Bawa tim sendiri, per jam", img: "https://images.unsplash.com/photo-1736580602204-b940bb0423ec" },
   ],
   addons: [
     { id: "foto", name: "Fotografer", price: 800000, note: "Termasuk 30 foto edit" },
@@ -18,6 +18,37 @@ const MAWAR = {
     { id: "stylist", name: "Stylist", price: 450000, note: "Bantu pilih dan atur baju" },
   ],
 };
+
+// Stock photos: Unsplash License (free to use). Demo gallery for the "Nadia & Raka" booking.
+MAWAR.gallery = ["1554384032-56ff486b6cd4", "1578359219991-efe67fa63626", "1740674570372-068c47883fc5", "1553465528-5a213ccc0c7b",
+  "1733122870089-46d9320cf5e4", "1635912369152-144ee6994787", "1551728339-499b333c5c43", "1760328249117-18488466e34c"];
+const photo = (id, w, h) => `https://images.unsplash.com/photo-${id}?w=${w}&h=${h}&fit=crop&crop=faces,entropy&q=70&auto=format`;
+const roomImg = (r, w = 600, h = 450) => `${r.img}?w=${w}&h=${h}&fit=crop&q=70&auto=format`;
+
+// Themes. Default comes from the impeccable direction roll; "klasik" is the category-standard look.
+const THEMES = [
+  ["cetak", "Amplop Cuci Cetak", "Hijau lab foto, kotak formulir, cap stempel", ["#0b7a3b", "#ffd100", "#d3261b", "#fbfbf7"]],
+  ["film", "Meja Potong Film", "Oranye di atas hitam, rel perforasi film", ["#0c0c0b", "#ff6a13", "#ffffff", "#3a3833"]],
+  ["pola", "Pola Jahit", "Kertas pola manila, garis putus, merah penjahit", ["#ecdfbd", "#1b1a17", "#c41e3a", "#f6eed9"]],
+  ["klasik", "Klasik", "Krem, serif, aksen mawar (gaya standar)", ["#faf7f2", "#1f1b18", "#a8434f", "#efe7dc"]],
+];
+function setTheme(t) {
+  document.documentElement.dataset.theme = t;
+  try { localStorage.setItem("ps-theme", t); } catch (e) {}
+  document.querySelectorAll("[data-theme-select]").forEach((s) => (s.value = t));
+  document.dispatchEvent(new CustomEvent("themechange", { detail: t }));
+}
+document.addEventListener("DOMContentLoaded", () => {
+  const bar = document.querySelector(".mock-bar");
+  if (!bar) return;
+  const wrap = document.createElement("label");
+  wrap.className = "theme-pick";
+  wrap.innerHTML = `<span>Tema</span><select data-theme-select aria-label="Pilih tema">${THEMES.map(([k, n]) => `<option value="${k}">${n}</option>`).join("")}</select>`;
+  bar.appendChild(wrap);
+  const sel = wrap.querySelector("select");
+  sel.value = document.documentElement.dataset.theme || "cetak";
+  sel.addEventListener("change", () => setTheme(sel.value));
+});
 
 const rupiah = (n) => "Rp " + Math.round(n).toLocaleString("id-ID");
 

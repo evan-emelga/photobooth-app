@@ -2,8 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
+  <script>(function(){var q=new URLSearchParams(location.search).get("theme"),t=q||localStorage.getItem("ps-theme")||"cetak";document.documentElement.dataset.theme=t;if(q)try{localStorage.setItem("ps-theme",q)}catch(e){}})()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Booking saya · Mawar Studio</title>
+  <title>Booking saya · PhotoStudio System Proposal</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -13,9 +14,8 @@
   <main class="wrap">
     <div class="row between">
       <div>
-        <p class="step-label">Kode booking MWR-1127</p>
         <h1>Prewedding · Nadia &amp; Raka</h1>
-        <p class="muted">Studio Rose · Jumat, 20 Nov 2026, 10:00 sampai 13:00 · Fotografer, MUA</p>
+        <p class="muted">Kode booking <b>MWR-1127</b> · Studio Rose · Jumat, 20 Nov 2026, 10:00 sampai 13:00 · Fotografer, MUA</p>
       </div>
       <span class="badge dp" id="pay-badge">DP terbayar</span>
     </div>
@@ -48,14 +48,14 @@
       <div class="row between">
         <div>
           <h2>Galeri foto</h2>
-          <p class="muted" style="margin:0">Pilih foto favorit (❤) untuk diedit. Galeri terbuka sampai <b>20 Des 2026</b> (30 hari).</p>
+          <p class="muted" style="margin:0">Pilih foto favorit (tombol hati) untuk diedit. Galeri terbuka sampai <b>20 Des 2026</b> (30 hari).</p>
         </div>
         <div class="row">
           <span class="badge rose"><span id="fav-count">0</span> / 20 favorit</span>
           <button class="btn sm" id="send-fav">Kirim pilihan ke studio</button>
         </div>
       </div>
-      <div class="note mt" id="lock-note">🔒 Foto masih pakai watermark. Download ukuran penuh terbuka setelah pelunasan.</div>
+      <div class="note mt" id="lock-note">Foto masih pakai watermark. Download ukuran penuh terbuka setelah pelunasan.</div>
       <div class="gallery mt" id="photos"></div>
       <div class="row mt">
         <button class="btn" id="dl" disabled>Download semua (ZIP, ukuran penuh)</button>
@@ -68,11 +68,11 @@
   <script>
     const favs = new Set([2, 5, 9]);
     const box = document.getElementById("photos");
-    box.innerHTML = Array.from({ length: 16 }, (_, i) => `
+    box.innerHTML = Array.from({ length: 12 }, (_, i) => `
       <div class="ph">
-        <img src="https://picsum.photos/seed/mawar-g${i}/300/400?grayscale" alt="Foto ${i + 1}" loading="lazy">
+        <img src="${photo(MAWAR.gallery[i % 8], 360, 480)}" alt="Contoh foto ${i + 1}" loading="lazy" style="${i >= 8 ? "transform:scaleX(-1)" : ""}">
         <div class="wm">Mawar Studio</div>
-        <button class="fav" data-i="${i}" aria-label="Favorit foto ${i + 1}">❤</button>
+        <button class="fav" data-i="${i}" aria-label="Favorit foto ${i + 1}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg></button>
       </div>`).join("");
     function paintFav() {
       box.querySelectorAll(".fav").forEach((b) => { const on = favs.has(+b.dataset.i); b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
@@ -95,7 +95,7 @@
       document.getElementById("tl-paid").className = "done";
       document.getElementById("tl-paid-sub").textContent = `Lunas lewat ${m}`;
       document.getElementById("pay-rest").classList.add("hide");
-      document.getElementById("lock-note").textContent = "✅ Lunas. Watermark hilang dan semua foto bisa didownload.";
+      document.getElementById("lock-note").textContent = "Lunas. Watermark hilang dan semua foto bisa didownload.";
       document.getElementById("gal").classList.add("unlocked");
       document.getElementById("dl").disabled = false;
       document.getElementById("dl-note").textContent = "48 foto · 1,2 GB";

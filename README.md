@@ -1,4 +1,4 @@
-# Photo studio system
+# PhotoStudio System Proposal
 
 Booking and management system for a photo studio (working name: Mawar Studio).
 

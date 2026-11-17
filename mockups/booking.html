@@ -2,8 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
+  <script>(function(){var q=new URLSearchParams(location.search).get("theme"),t=q||localStorage.getItem("ps-theme")||"cetak";document.documentElement.dataset.theme=t;if(q)try{localStorage.setItem("ps-theme",q)}catch(e){}})()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Booking sesi · Mawar Studio</title>
+  <title>Booking sesi · PhotoStudio System Proposal</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
@@ -11,11 +12,10 @@
   <header class="site-head"><div class="wrap narrow"><a class="brand" href="booking.html"><span class="dot"></span> Mawar Studio</a><a href="booking-saya.html" class="btn ghost sm">Booking saya</a></div></header>
 
   <main class="wrap narrow" id="flow">
-    <div class="steps" aria-hidden="true"><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div></div>
+    <div class="row" style="gap:14px;margin:8px 0 20px"><div class="steps" aria-hidden="true" style="flex:1;margin:0"><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div></div><small class="muted" id="step-no" style="font-weight:700"></small></div>
 
     <!-- Step 1 -->
     <section data-step="1">
-      <p class="step-label">Langkah 1 dari 4</p>
       <h1>Mau sesi apa?</h1>
       <div class="grid g2" id="sessions"></div>
       <h2 class="mt">Pilih ruangan</h2>
@@ -24,7 +24,6 @@
 
     <!-- Step 2 -->
     <section data-step="2" class="hide">
-      <p class="step-label">Langkah 2 dari 4</p>
       <h1>Butuh tim apa saja?</h1>
       <p class="muted">Tim kami pilihkan dari fotografer, MUA, dan stylist Mawar Studio yang kosong di jam kamu. Boleh tidak pilih apa pun kalau bawa tim sendiri.</p>
       <div class="stack" id="addons"></div>
@@ -32,7 +31,6 @@
 
     <!-- Step 3 -->
     <section data-step="3" class="hide">
-      <p class="step-label">Langkah 3 dari 4</p>
       <h1>Pilih tanggal dan jam</h1>
       <p class="muted" id="slot-note"></p>
       <div class="dates" id="dates" role="group" aria-label="Pilih tanggal"></div>
@@ -43,7 +41,6 @@
 
     <!-- Step 4 -->
     <section data-step="4" class="hide">
-      <p class="step-label">Langkah 4 dari 4</p>
       <h1>Data dan pembayaran</h1>
       <div class="card flat">
         <div class="field"><label for="nm">Nama</label><input id="nm" type="text" value="Nadia &amp; Raka" autocomplete="name"></div>
@@ -68,7 +65,6 @@
     <!-- Done -->
     <section data-step="5" class="hide">
       <div class="card" style="text-align:center">
-        <div style="font-size:42px" aria-hidden="true">🌹</div>
         <h1>Booking berhasil!</h1>
         <p class="muted">Kode booking <b>MWR-1127</b>. Pembayaran <span id="paid-kind"></span> diterima lewat <span id="paid-method"></span>.</p>
         <a class="btn rose" href="booking-saya.html">Lihat booking saya</a>
@@ -106,9 +102,9 @@
     function optCard(name, id, checked, inner, type = "radio") {
       return `<label class="opt"><input type="${type}" name="${name}" value="${id}" ${checked ? "checked" : ""}><div class="box">${inner}</div></label>`;
     }
-    $("#sessions").innerHTML = MAWAR.sessions.map((s) => optCard("session", s.id, s.id === st.session, `<b>${s.name}</b><br><small>${s.desc}</small>`)).join("");
+    $("#sessions").innerHTML = MAWAR.sessions.map((s) => optCard("session", s.id, s.id === st.session, `<div class="thumb" style="background-image:url(${s.img}?w=600&h=400&fit=crop&crop=faces,entropy&q=70&auto=format);aspect-ratio:3/2" role="img" aria-label="Contoh foto ${s.name}"></div><b>${s.name}</b><br><small>${s.desc}</small>`)).join("");
     $("#rooms").innerHTML = MAWAR.rooms.map((r) => optCard("room", r.id, r.id === st.room,
-      `<div class="thumb" style="background:${r.bg}"></div><b>${r.name}</b><br><small>${r.desc} · maks ${r.cap} orang</small><br><span class="price">${rupiah(r.perHour)}</span> <small>/ jam</small>`)).join("");
+      `<div class="thumb" style="background-image:url(${roomImg(r)})" role="img" aria-label="Foto ${r.name}"></div><b>${r.name}</b><br><small>${r.desc} · maks ${r.cap} orang</small><br><span class="price">${rupiah(r.perHour)}</span> <small>/ jam</small>`)).join("");
     $("#addons").innerHTML = MAWAR.addons.map((a) => optCard("addon", a.id, st.addons.has(a.id),
       `<div class="row between"><div><b>${a.name}</b><br><small>${a.note}</small></div><span class="price">+ ${rupiah(a.price)}</span></div>`, "checkbox")).join("");
 
@@ -164,6 +160,7 @@
     function render() {
       document.querySelectorAll("[data-step]").forEach((el) => el.classList.toggle("hide", +el.dataset.step !== st.step));
       document.querySelectorAll(".steps .s").forEach((el, i) => el.classList.toggle("on", i < st.step));
+      $("#step-no").textContent = st.step <= 4 ? `Langkah ${st.step} dari 4` : "";
       if (st.step === 3) renderDates();
       if (st.step === 4) renderSummary();
       const isDp = document.querySelector("input[name=pay]:checked").value === "dp";

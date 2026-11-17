@@ -2,8 +2,9 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
+  <script>(function(){var q=new URLSearchParams(location.search).get("theme"),t=q||localStorage.getItem("ps-theme")||"cetak";document.documentElement.dataset.theme=t;if(q)try{localStorage.setItem("ps-theme",q)}catch(e){}})()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MWR-1127 · Mawar Admin</title>
+  <title>MWR-1127 · PhotoStudio System Proposal</title>
   <link rel="stylesheet" href="../assets/style.css">
 </head>
 <body>
@@ -14,8 +15,8 @@
       <p><a href="index.html">← Jadwal</a></p>
       <div class="main-head">
         <div>
-          <p class="step-label" style="margin:0">MWR-1127 · Prewedding</p>
           <h1 style="margin:0">Nadia &amp; Raka</h1>
+          <p class="muted" style="margin:0">MWR-1127 · Prewedding</p>
         </div>
         <div class="row">
           <span class="badge dp" id="badge">DP terbayar</span>
@@ -56,7 +57,7 @@
               </select>
             </div>
             <button class="btn block mt" id="send-team">Kirim jadwal ke tim via WA</button>
-            <div class="wa mt hide" id="wa-team"><div class="who">Ke Bayu (Fotografer)</div><div class="msg">Halo Bayu, ada job dari Mawar Studio 📸
+            <div class="wa mt hide" id="wa-team"><div class="who">Ke Bayu (Fotografer)</div><div class="msg">Halo Bayu, ada job dari Mawar Studio.
 Prewedding · Studio Rose
 Jumat, 20 Nov 2026, 10:00 sampai 13:00
 Konsep: rustic, 2 baju
@@ -114,7 +115,7 @@ Balas YA untuk konfirmasi ya.</div></div>
       const img = document.createElement("img"); img.src = src; img.alt = alt; d.appendChild(img);
       thumbs.appendChild(d);
     };
-    for (let i = 0; i < 8; i++) addThumb(`https://picsum.photos/seed/mawar-g${i}/120/160?grayscale`, `Foto ${i + 1}`);
+    for (let i = 0; i < 8; i++) addThumb(photo(MAWAR.gallery[i], 160, 210), `Contoh foto ${i + 1}`);
     document.getElementById("files").addEventListener("change", (e) => {
       [...e.target.files].forEach((f) => addThumb(URL.createObjectURL(f), f.name));
       toast(`${e.target.files.length} foto ditambahkan (contoh, tidak benar-benar diupload)`);

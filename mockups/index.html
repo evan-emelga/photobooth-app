@@ -2,76 +2,88 @@
 <html lang="id">
 <head>
   <meta charset="utf-8">
+  <script>(function(){var q=new URLSearchParams(location.search).get("theme"),t=q||localStorage.getItem("ps-theme")||"cetak";document.documentElement.dataset.theme=t;if(q)try{localStorage.setItem("ps-theme",q)}catch(e){}})()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mawar Studio · Mockup sistem photo studio</title>
+  <title>PhotoStudio System Proposal</title>
   <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
-  <div class="mock-bar"><span>Mockup untuk pitch, belum sistem asli. Semua data contoh.</span><span>v1 · 17 Nov 2026</span></div>
+  <!--
+  THESIS: the proposal opens on two doors, the customer's and the studio's, instead of a feature list; the system is understood by walking in.
+  OWN-WORLD: default theme "Amplop Cuci Cetak": photo-lab envelope green fields, black order-form rule boxes, red ink for the chosen option, yellow price box, stamped mono numbers, condensed uppercase Archivo.
+  STORY: the visitor picks a side, clicks through a real booking or a real admin day, and believes one system can replace the DM-and-spreadsheet routine.
+  FIRST VIEWPORT: title left at display size; below it two equal full-photo doors, Customer Side and Admin Side, each with a growing accent bar and arrow.
+  FORM: grounded candidate 6 of 7 (photo-lab print envelope); challengers Meja Potong Film and Pola Jahit kept as switchable themes; seed key 1aae9d36.
+  FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+  -->
+  <div class="mock-bar"><span>PhotoStudio System Proposal · mockup, semua data contoh</span></div>
 
   <main class="wrap">
-    <section class="hero">
-      <div class="brand" style="margin-bottom:18px"><span class="dot"></span> Mawar Studio</div>
-      <h1>Sistem photo studio, dari booking sampai kirim foto.</h1>
-      <p class="muted" style="max-width:640px">Customer booking ruangan dan tim sendiri lewat website. Admin mengatur jadwal ruangan dan freelancer di satu tempat. Pembayaran lewat Midtrans, dan foto dikirim lewat galeri online.</p>
+    <section class="start-top">
+      <h1>PhotoStudio System Proposal</h1>
+      <p>Satu website untuk photo studio: customer booking ruangan dan tim, admin mengatur jadwal ruangan dan freelancer, pembayaran lewat Midtrans, dan foto dikirim lewat galeri online. Pilih sisi yang mau dicoba.</p>
     </section>
 
-    <h2>Sisi customer</h2>
-    <div class="grid g3">
-      <a class="card screen-card" href="booking.html">
-        <span class="num">01</span>
-        <h3>Booking sesi</h3>
-        <p class="muted">4 langkah: sesi dan ruangan, kebutuhan tim, tanggal dan jam, lalu bayar DP atau lunas.</p>
-      </a>
-      <a class="card screen-card" href="booking-saya.html">
-        <span class="num">02</span>
-        <h3>Booking saya &amp; galeri</h3>
-        <p class="muted">Status booking, bayar pelunasan, pilih foto favorit untuk diedit, lalu download setelah lunas.</p>
-      </a>
-    </div>
-
-    <h2 class="mt">Sisi admin</h2>
-    <div class="grid g3">
-      <a class="card screen-card" href="admin/index.html">
-        <span class="num">03</span>
-        <h3>Jadwal hari ini</h3>
-        <p class="muted">Semua ruangan dan freelancer dalam satu timeline. Booking yang belum punya tim langsung terlihat.</p>
-      </a>
-      <a class="card screen-card" href="admin/booking.html">
-        <span class="num">04</span>
-        <h3>Detail booking</h3>
-        <p class="muted">Pasang freelancer yang kosong, lihat status bayar dari Midtrans, kirim invoice, upload foto.</p>
-      </a>
-      <a class="card screen-card" href="admin/freelancer.html">
-        <span class="num">05</span>
-        <h3>Freelancer</h3>
-        <p class="muted">Daftar MUA, fotografer, dan stylist. Admin mengisi jam kosong mereka.</p>
-      </a>
-      <a class="card screen-card" href="admin/laporan.html">
-        <span class="num">06</span>
-        <h3>Booking &amp; laporan</h3>
-        <p class="muted">Semua booking dan status bayarnya. Tombol download Excel untuk pembukuan.</p>
-      </a>
-      <a class="card screen-card" href="admin/pengaturan.html">
-        <span class="num">07</span>
-        <h3>Pengaturan</h3>
-        <p class="muted">Ruangan, harga, persen DP, lama galeri dibuka, dan template pesan WhatsApp.</p>
-      </a>
-    </div>
-
-    <h2 class="mt">Keputusan dan asumsi di mockup ini</h2>
-    <div class="grid g2">
-      <div class="card flat stack">
-        <p><b>Customer melihat brand Mawar, bukan nama freelancer.</b> Customer hanya mencentang kebutuhan (fotografer, MUA, stylist). Admin yang memilih orangnya.</p>
-        <p><b>Jadwal freelancer diisi admin.</b> Freelancer belum perlu login. Mereka dapat jadwal job lewat WhatsApp.</p>
-        <p><b>Jam yang tampil ke customer sudah dicek dua hal:</b> ruangan kosong, dan ada freelancer yang kosong untuk kebutuhan yang dicentang.</p>
+    <div class="split">
+      <div>
+        <a class="door" href="booking.html">
+          <img src="https://images.unsplash.com/photo-1554384032-56ff486b6cd4?w=1200&h=1300&fit=crop&crop=entropy&q=72&auto=format" alt="">
+          <div class="door-in">
+            <div class="door-bar"></div>
+            <div class="door-label">Customer Side <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7"/></svg></div>
+            <p class="door-sub">Booking sesi dalam 4 langkah, bayar DP lewat Midtrans, lalu ambil foto di galeri.</p>
+          </div>
+        </a>
+        <div class="door-links"><a href="booking.html">Booking sesi</a><a href="booking-saya.html">Booking saya &amp; galeri</a></div>
       </div>
-      <div class="card flat stack">
-        <p><b>Bayar online lewat Midtrans Snap</b> (QRIS, e-wallet, VA, kartu). Status bayar berubah sendiri saat customer bayar. Admin tidak perlu cek mutasi.</p>
-        <p><b>Persen DP, jumlah ruangan, dan lama galeri dibuka</b> bisa diatur admin di halaman Pengaturan. Contoh di mockup: DP 50%, 3 ruangan, galeri 30 hari.</p>
-        <p><b>Pembukuan tidak dibuat.</b> Cukup download Excel dari halaman Laporan.</p>
+      <div>
+        <a class="door" href="admin/index.html">
+          <img src="https://images.unsplash.com/photo-1471341971476-ae15ff5dd4ea?w=1200&h=1300&fit=crop&crop=entropy&q=72&auto=format" alt="">
+          <div class="door-in">
+            <div class="door-bar"></div>
+            <div class="door-label">Admin Side <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7"/></svg></div>
+            <p class="door-sub">Jadwal semua ruangan dan freelancer, status bayar otomatis, upload foto, dan laporan Excel.</p>
+          </div>
+        </a>
+        <div class="door-links"><a href="admin/index.html">Jadwal</a><a href="admin/booking.html">Detail booking</a><a href="admin/freelancer.html">Freelancer</a><a href="admin/laporan.html">Laporan</a><a href="admin/pengaturan.html">Pengaturan</a></div>
       </div>
     </div>
+
+    <section class="mt" style="margin-top:48px">
+      <h2>Pilih tema</h2>
+      <p class="muted">Tema berlaku di semua layar. Bisa juga diganti dari menu "Tema" di bar atas.</p>
+      <div class="themes" id="themes"></div>
+    </section>
+
+    <section style="margin-top:48px">
+      <h2>Keputusan dan asumsi di mockup ini</h2>
+      <div class="grid g2">
+        <div class="card flat stack">
+          <p><b>Customer melihat brand studio, bukan nama freelancer.</b> Customer hanya mencentang kebutuhan (fotografer, MUA, stylist). Admin yang memilih orangnya.</p>
+          <p><b>Jadwal freelancer diisi admin.</b> Freelancer belum perlu login. Mereka dapat jadwal job lewat WhatsApp.</p>
+          <p><b>Jam yang tampil ke customer sudah dicek dua hal:</b> ruangan kosong, dan ada freelancer yang kosong untuk kebutuhan yang dicentang.</p>
+        </div>
+        <div class="card flat stack">
+          <p><b>Bayar online lewat Midtrans Snap</b> (QRIS, e-wallet, VA, kartu). Status bayar berubah sendiri saat customer bayar.</p>
+          <p><b>Persen DP, jumlah ruangan, dan lama galeri dibuka</b> diatur admin di halaman Pengaturan. Contoh di mockup: DP 50%, 3 ruangan, galeri 30 hari.</p>
+          <p><b>Pembukuan tidak dibuat.</b> Cukup download Excel dari halaman Laporan.</p>
+        </div>
+      </div>
+      <p class="hint mt">"Mawar Studio" adalah nama contoh untuk brand client. Foto dari Unsplash (Unsplash License). Semua nama, harga, dan booking adalah data contoh.</p>
+    </section>
   </main>
+
+  <script src="assets/app.js"></script>
+  <script>
+    const box = document.getElementById("themes");
+    function paint() {
+      const cur = document.documentElement.dataset.theme;
+      box.innerHTML = THEMES.map(([k, n, d, sw]) => `<button class="theme-card" data-k="${k}" aria-pressed="${k === cur}">
+        <span class="sw">${sw.map((c) => `<span style="background:${c}"></span>`).join("")}</span><b>${n}</b><small class="muted">${d}</small></button>`).join("");
+    }
+    box.addEventListener("click", (e) => { const b = e.target.closest("[data-k]"); if (b) setTheme(b.dataset.k); });
+    document.addEventListener("themechange", paint);
+    paint();
+  </script>
 </body>
 </html>
