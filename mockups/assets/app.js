@@ -1,4 +1,4 @@
-// Shared helpers and demo data for the Mawar Studio mockup. No backend: everything is fake.
+// Shared helpers and demo data for the PhotoStudio System mockup. No backend: everything is fake.
 const MAWAR = {
   settings: { dpPercent: 50, galleryDays: 30, muaLeadMin: 60, bufferMin: 15, maxFavorites: 20 },
   rooms: [
@@ -30,7 +30,7 @@ const THEMES = [
   ["cetak", "Amplop Cuci Cetak", "Hijau lab foto, kotak formulir, cap stempel", ["#0b7a3b", "#ffd100", "#d3261b", "#fbfbf7"]],
   ["film", "Meja Potong Film", "Oranye di atas hitam, rel perforasi film", ["#0c0c0b", "#ff6a13", "#ffffff", "#3a3833"]],
   ["pola", "Pola Jahit", "Kertas pola manila, garis putus, merah penjahit", ["#ecdfbd", "#1b1a17", "#c41e3a", "#f6eed9"]],
-  ["klasik", "Klasik", "Krem, serif, aksen mawar (gaya standar)", ["#faf7f2", "#1f1b18", "#a8434f", "#efe7dc"]],
+  ["klasik", "Klasik", "Krem, serif, aksen rose (gaya standar)", ["#faf7f2", "#1f1b18", "#a8434f", "#efe7dc"]],
 ];
 function setTheme(t) {
   document.documentElement.dataset.theme = t;
@@ -82,7 +82,7 @@ function openSnap(amount, label, onPaid) {
     m.innerHTML = `
       <div class="sheet">
         <div class="top row between">
-          <div><b>Mawar Studio</b><br><small data-label></small></div>
+          <div><b>Nama Studio</b><br><small data-label></small></div>
           <div style="text-align:right"><small>Total</small><br><b data-amount></b></div>
         </div>
         <div class="body">
@@ -99,7 +99,7 @@ function openSnap(amount, label, onPaid) {
             <div data-qr-wrap>
               <div style="margin:2px 0 6px">${logo("qris", "QRIS", 30)}</div>
               <img class="qr-img" src="${ASSETS}qr-demo.svg" alt="Contoh kode QR, bukan pembayaran asli">
-              <p class="muted" style="font-size:12px;margin:0">NMID: ID1026xxxxxx · Mawar Studio</p>
+              <p class="muted" style="font-size:12px;margin:0">NMID: ID1026xxxxxx · Nama Studio</p>
             </div>
             <p class="muted" style="font-size:13px">Di sistem asli, Midtrans memberi tahu sistem otomatis begitu customer bayar. Admin tidak perlu cek mutasi rekening.</p>
             <button class="btn green block" data-ok>Simulasikan bayar berhasil</button>
@@ -140,7 +140,7 @@ document.addEventListener("keydown", (e) => {
 function adminNav(active) {
   const items = [["index.html", "jadwal", "Jadwal"], ["laporan.html", "laporan", "Booking & laporan"], ["freelancer.html", "freelancer", "Freelancer"], ["pengaturan.html", "pengaturan", "Pengaturan"]];
   document.getElementById("side").innerHTML =
-    `<a class="brand" href="index.html"><span class="dot"></span> Mawar Admin</a><nav>` +
+    `<a class="brand" href="index.html"><span class="dot"></span> Admin Studio</a><nav>` +
     items.map(([href, key, label]) => `<a href="${href}" class="${key === active ? "on" : ""}">${label}</a>`).join("") +
-    `</nav><div class="who">Masuk sebagai<br><b style="color:#e9e1d8">Admin Mawar</b></div>`;
+    `</nav><div class="who">Masuk sebagai<br><b style="color:#e9e1d8">Admin Studio</b></div>`;
 }

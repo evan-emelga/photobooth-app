@@ -9,13 +9,13 @@
 </head>
 <body>
   <div class="mock-bar"><a href="index.html">← Semua layar</a><span>02 · Customer: booking saya &amp; galeri</span></div>
-  <header class="site-head"><div class="wrap"><a class="brand" href="booking.html"><span class="dot"></span> Mawar Studio</a><a href="booking.html" class="btn ghost sm">Booking baru</a></div></header>
+  <header class="site-head"><div class="wrap"><a class="brand" href="booking.html"><span class="dot"></span> Nama Studio</a><a href="booking.html" class="btn ghost sm">Booking baru</a></div></header>
 
   <main class="wrap">
     <div class="row between">
       <div>
         <h1>Prewedding · Nadia &amp; Raka</h1>
-        <p class="muted">Kode booking <b>MWR-1127</b> · Studio Rose · Jumat, 20 Nov 2026, 10:00 sampai 13:00 · Fotografer, MUA</p>
+        <p class="muted">Kode booking <b>BK-1127</b> · Studio Rose · Jumat, 20 Nov 2026, 10:00 sampai 13:00 · Fotografer, MUA</p>
       </div>
       <span class="badge dp" id="pay-badge">DP terbayar</span>
     </div>
@@ -71,7 +71,7 @@
     box.innerHTML = Array.from({ length: 12 }, (_, i) => `
       <div class="ph">
         <img src="${photo(MAWAR.gallery[i % 8], 360, 480)}" alt="Contoh foto ${i + 1}" loading="lazy" style="${i >= 8 ? "transform:scaleX(-1)" : ""}">
-        <div class="wm">Mawar Studio</div>
+        <div class="wm">Nama Studio</div>
         <button class="fav" data-i="${i}" aria-label="Favorit foto ${i + 1}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.5s-7.5-4.6-9.3-9.2C1.4 7.9 3.6 4.5 7 4.5c2 0 3.4 1.1 5 3 1.6-1.9 3-3 5-3 3.4 0 5.6 3.4 4.3 6.8-1.8 4.6-9.3 9.2-9.3 9.2z"/></svg></button>
       </div>`).join("");
     function paintFav() {
@@ -87,7 +87,7 @@
     paintFav();
     document.getElementById("send-fav").addEventListener("click", () => toast(`${favs.size} foto dikirim ke studio untuk diedit`));
 
-    document.getElementById("pay-rest").addEventListener("click", () => openSnap(1400000, "Pelunasan · MWR-1127", (m) => {
+    document.getElementById("pay-rest").addEventListener("click", () => openSnap(1400000, "Pelunasan · BK-1127", (m) => {
       document.getElementById("pay-badge").className = "badge paid";
       document.getElementById("pay-badge").textContent = "Lunas";
       document.getElementById("paid-amt").textContent = "Rp 2.800.000";

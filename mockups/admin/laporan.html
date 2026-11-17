@@ -35,16 +35,16 @@
   <script>
     adminNav("laporan");
     const rows = [
-      ["MWR-1127", "20 Nov", "Nadia & Raka", "Prewedding", "Studio Rose", "Bayu, Rina", 2800000, 1400000, "QRIS"],
-      ["MWR-1128", "20 Nov", "Dimas & Ayu", "Prewedding", "Studio Rose", "Bayu, Rina, Maya", 3250000, 3250000, "VA BCA"],
-      ["MWR-1124", "20 Nov", "Kevin & keluarga", "Graduation", "Studio Putih", "Andre", 1200000, 1200000, "GoPay"],
-      ["MWR-1125", "20 Nov", "Sinta", "Graduation", "Studio Putih", "Andre", 1200000, 600000, "QRIS"],
-      ["MWR-1126", "20 Nov", "Keluarga Tan", "Family", "Studio Hitam", "Dewi", 1150000, 1150000, "VA Mandiri"],
-      ["MWR-1129", "20 Nov", "Kopi Senja", "Sewa studio", "Studio Putih", "-", 800000, 0, "-"],
-      ["MWR-1130", "20 Nov", "Vania", "Personal", "Studio Hitam", "Belum ada", 1150000, 575000, "QRIS"],
-      ["MWR-1119", "15 Nov", "Gita & Bram", "Prewedding", "Studio Rose", "Bayu, Sari", 2800000, 2800000, "Kartu kredit"],
-      ["MWR-1112", "12 Nov", "SMA Tunas", "Graduation", "Studio Putih", "Andre, Rina", 1850000, 1850000, "VA BCA"],
-      ["MWR-1107", "8 Nov", "Lukas", "Sewa studio", "Studio Hitam", "-", 700000, 700000, "Tunai"],
+      ["BK-1127", "20 Nov", "Nadia & Raka", "Prewedding", "Studio Rose", "Bayu, Rina", 2800000, 1400000, "QRIS"],
+      ["BK-1128", "20 Nov", "Dimas & Ayu", "Prewedding", "Studio Rose", "Bayu, Rina, Maya", 3250000, 3250000, "VA BCA"],
+      ["BK-1124", "20 Nov", "Kevin & keluarga", "Graduation", "Studio Putih", "Andre", 1200000, 1200000, "GoPay"],
+      ["BK-1125", "20 Nov", "Sinta", "Graduation", "Studio Putih", "Andre", 1200000, 600000, "QRIS"],
+      ["BK-1126", "20 Nov", "Keluarga Tan", "Family", "Studio Hitam", "Dewi", 1150000, 1150000, "VA Mandiri"],
+      ["BK-1129", "20 Nov", "Kopi Senja", "Sewa studio", "Studio Putih", "-", 800000, 0, "-"],
+      ["BK-1130", "20 Nov", "Vania", "Personal", "Studio Hitam", "Belum ada", 1150000, 575000, "QRIS"],
+      ["BK-1119", "15 Nov", "Gita & Bram", "Prewedding", "Studio Rose", "Bayu, Sari", 2800000, 2800000, "Kartu kredit"],
+      ["BK-1112", "12 Nov", "SMA Tunas", "Graduation", "Studio Putih", "Andre, Rina", 1850000, 1850000, "VA BCA"],
+      ["BK-1107", "8 Nov", "Lukas", "Sewa studio", "Studio Hitam", "-", 700000, 700000, "Tunai"],
     ].map(([code, date, name, sess, room, team, total, paid, method]) => ({ code, date, name, sess, room, team, total, paid, method,
       status: paid >= total ? "Lunas" : paid > 0 ? "DP" : "Belum bayar" }));
     const cls = { "Lunas": "paid", "DP": "dp", "Belum bayar": "unpaid" };
@@ -74,7 +74,7 @@
       const lines = [head, ...filtered().map((r) => [r.code, r.date + " 2026", r.name, r.sess, r.room, r.team, r.total, r.paid, r.total - r.paid, r.method, r.status])]
         .map((l) => l.map(esc).join(","));
       const blob = new Blob(["sep=,\n" + lines.join("\n")], { type: "text/csv;charset=utf-8" });
-      const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: "mawar-booking-november-2026.csv" });
+      const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: "booking-november-2026.csv" });
       a.click();
       toast("File Excel terdownload");
     });

@@ -36,12 +36,12 @@ Customers book the studio brand, not a freelancer. The slot picker only shows ti
 
 - Admin settings: rooms (count, capacity, price), DP percent, gallery open days, session durations, team prices, WA templates.
 - Gallery: watermarked previews, favorites for retouch, full-size ZIP unlocks after full payment.
-- Undecided: client brand name (placeholder "Mawar"), pricing of the system itself, real photography.
+- Undecided: client brand name (placeholder "Nama Studio"; Evan asked to drop "Mawar" on 17 Nov 2026), pricing of the system itself, real photography.
 
 ## Brand Commitments
 
 - Document name: "PhotoStudio System Proposal" (Evan, 17 Nov 2026).
-- Client brand is a placeholder, "Mawar Studio". No logo or palette exists yet.
+- Client brand is a placeholder, "Nama Studio". No logo or palette exists yet.
 - UI copy is in Indonesian.
 
 ## Evidence on Hand

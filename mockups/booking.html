@@ -9,7 +9,7 @@
 </head>
 <body>
   <div class="mock-bar"><a href="index.html">← Semua layar</a><span>01 · Customer: booking sesi</span></div>
-  <header class="site-head"><div class="wrap narrow"><a class="brand" href="booking.html"><span class="dot"></span> Mawar Studio</a><a href="booking-saya.html" class="btn ghost sm">Booking saya</a></div></header>
+  <header class="site-head"><div class="wrap narrow"><a class="brand" href="booking.html"><span class="dot"></span> Nama Studio</a><a href="booking-saya.html" class="btn ghost sm">Booking saya</a></div></header>
 
   <main class="wrap narrow" id="flow">
     <div class="row" style="gap:14px;margin:8px 0 20px"><div class="steps" aria-hidden="true" style="flex:1;margin:0"><div class="s"></div><div class="s"></div><div class="s"></div><div class="s"></div></div><small class="muted" id="step-no" style="font-weight:700"></small></div>
@@ -25,7 +25,7 @@
     <!-- Step 2 -->
     <section data-step="2" class="hide">
       <h1>Butuh tim apa saja?</h1>
-      <p class="muted">Tim kami pilihkan dari fotografer, MUA, dan stylist Mawar Studio yang kosong di jam kamu. Boleh tidak pilih apa pun kalau bawa tim sendiri.</p>
+      <p class="muted">Tim kami pilihkan dari fotografer, MUA, dan stylist studio yang kosong di jam kamu. Boleh tidak pilih apa pun kalau bawa tim sendiri.</p>
       <div class="stack" id="addons"></div>
     </section>
 
@@ -66,11 +66,11 @@
     <section data-step="5" class="hide">
       <div class="card" style="text-align:center">
         <h1>Booking berhasil!</h1>
-        <p class="muted">Kode booking <b>MWR-1127</b>. Pembayaran <span id="paid-kind"></span> diterima lewat <span id="paid-method"></span>.</p>
+        <p class="muted">Kode booking <b>BK-1127</b>. Pembayaran <span id="paid-kind"></span> diterima lewat <span id="paid-method"></span>.</p>
         <a class="btn rose" href="booking-saya.html">Lihat booking saya</a>
       </div>
       <h3 class="mt">Yang customer terima di WhatsApp</h3>
-      <div class="wa"><div class="who">Mawar Studio (otomatis)</div><div class="msg" id="wa-msg"></div></div>
+      <div class="wa"><div class="who">Nama Studio (otomatis)</div><div class="msg" id="wa-msg"></div></div>
     </section>
   </main>
 
@@ -177,16 +177,16 @@
       if (st.step < 4) { st.step++; render(); window.scrollTo(0, 0); return; }
       const isDp = document.querySelector("input[name=pay]:checked").value === "dp";
       const amt = isDp ? total() * S.dpPercent / 100 : total();
-      openSnap(amt, isDp ? `DP ${S.dpPercent}% · MWR-1127` : "Lunas · MWR-1127", (method) => {
+      openSnap(amt, isDp ? `DP ${S.dpPercent}% · BK-1127` : "Lunas · BK-1127", (method) => {
         $("#paid-kind").textContent = isDp ? `DP ${rupiah(amt)}` : `lunas ${rupiah(amt)}`;
         $("#paid-method").textContent = method;
         const when = `${fmtDate(dateOf(st.date))}, ${String(st.time).padStart(2, "0")}:00`;
         $("#wa-msg").textContent =
-          `Halo ${$("#nm").value}! 🌹\nBooking kamu di Mawar Studio sudah terkonfirmasi.\n\n` +
-          `Kode: MWR-1127\nSesi: ${session().name}\nRuangan: ${room().name}\nWaktu: ${when}\n` +
+          `Halo ${$("#nm").value}! 🌹\nBooking kamu di Nama Studio sudah terkonfirmasi.\n\n` +
+          `Kode: BK-1127\nSesi: ${session().name}\nRuangan: ${room().name}\nWaktu: ${when}\n` +
           (st.addons.has("mua") ? `MUA mulai rias: ${String(st.time - 1).padStart(2, "0")}:00\n` : "") +
           `\nDibayar: ${rupiah(amt)}` + (isDp ? `\nSisa: ${rupiah(total() - amt)} (bayar sebelum download foto)` : "") +
-          `\n\nCek booking: mawarstudio.id/b/MWR-1127\nKami ingatkan lagi H-1 ya!`;
+          `\n\nCek booking: namastudio.id/b/BK-1127\nKami ingatkan lagi H-1 ya!`;
         st.step = 5; render(); window.scrollTo(0, 0);
       });
     });
