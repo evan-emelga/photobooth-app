@@ -112,7 +112,7 @@ Waktu: {tanggal}, {jam}</textarea></div>
       <td><div class="inline"><input type="number" value="${r.cap}" aria-label="Kapasitas" style="width:70px"> orang</div></td>
       <td><input type="text" value="${rupiah(r.perHour)}" aria-label="Harga per jam" style="width:130px"> <small class="muted">/ jam</small></td>
       <td><label class="sw"><input type="checkbox" checked> Aktif</label></td></tr>`;
-    tbl.innerHTML = `<tr><th>Nama</th><th>Kapasitas</th><th>Harga</th><th>Status</th></tr>` + MAWAR.rooms.map(row).join("");
+    tbl.innerHTML = `<tr><th>Nama</th><th>Kapasitas</th><th>Harga</th><th>Status</th></tr>` + DEMO.rooms.map(row).join("");
     document.getElementById("add-room").addEventListener("click", () => {
       tbl.insertAdjacentHTML("beforeend", row({ name: "Studio baru", cap: 4, perHour: 400000 }));
       tbl.querySelector("tr:last-child input").focus();

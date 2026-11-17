@@ -115,7 +115,7 @@ Balas YA untuk konfirmasi ya.</div></div>
       const img = document.createElement("img"); img.src = src; img.alt = alt; d.appendChild(img);
       thumbs.appendChild(d);
     };
-    for (let i = 0; i < 8; i++) addThumb(photo(MAWAR.gallery[i], 160, 210), `Contoh foto ${i + 1}`);
+    for (let i = 0; i < 8; i++) addThumb(photo(DEMO.gallery[i], 160, 210), `Contoh foto ${i + 1}`);
     document.getElementById("files").addEventListener("change", (e) => {
       [...e.target.files].forEach((f) => addThumb(URL.createObjectURL(f), f.name));
       toast(`${e.target.files.length} foto ditambahkan (contoh, tidak benar-benar diupload)`);

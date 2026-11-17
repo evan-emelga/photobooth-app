@@ -86,7 +86,7 @@
 
   <script src="assets/app.js"></script>
   <script>
-    const S = MAWAR.settings;
+    const S = DEMO.settings;
     const st = { step: 1, session: "prewed", room: "rose", addons: new Set(["foto", "mua"]), date: 2, time: null };
     const $ = (s) => document.querySelector(s);
     const days = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
@@ -95,17 +95,17 @@
     const dateOf = (i) => new Date(base.getFullYear(), base.getMonth(), base.getDate() + i);
     const fmtDate = (d) => `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
 
-    const session = () => MAWAR.sessions.find((x) => x.id === st.session);
-    const room = () => MAWAR.rooms.find((x) => x.id === st.room);
-    const total = () => room().perHour * session().hours + [...st.addons].reduce((a, id) => a + MAWAR.addons.find((x) => x.id === id).price, 0);
+    const session = () => DEMO.sessions.find((x) => x.id === st.session);
+    const room = () => DEMO.rooms.find((x) => x.id === st.room);
+    const total = () => room().perHour * session().hours + [...st.addons].reduce((a, id) => a + DEMO.addons.find((x) => x.id === id).price, 0);
 
     function optCard(name, id, checked, inner, type = "radio") {
       return `<label class="opt"><input type="${type}" name="${name}" value="${id}" ${checked ? "checked" : ""}><div class="box">${inner}</div></label>`;
     }
-    $("#sessions").innerHTML = MAWAR.sessions.map((s) => optCard("session", s.id, s.id === st.session, `<div class="thumb" style="background-image:url(${s.img}?w=600&h=400&fit=crop&crop=faces,entropy&q=70&auto=format);aspect-ratio:3/2" role="img" aria-label="Contoh foto ${s.name}"></div><b>${s.name}</b><br><small>${s.desc}</small>`)).join("");
-    $("#rooms").innerHTML = MAWAR.rooms.map((r) => optCard("room", r.id, r.id === st.room,
+    $("#sessions").innerHTML = DEMO.sessions.map((s) => optCard("session", s.id, s.id === st.session, `<div class="thumb" style="background-image:url(${s.img}?w=600&h=400&fit=crop&crop=faces,entropy&q=70&auto=format);aspect-ratio:3/2" role="img" aria-label="Contoh foto ${s.name}"></div><b>${s.name}</b><br><small>${s.desc}</small>`)).join("");
+    $("#rooms").innerHTML = DEMO.rooms.map((r) => optCard("room", r.id, r.id === st.room,
       `<div class="thumb" style="background-image:url(${roomImg(r)})" role="img" aria-label="Foto ${r.name}"></div><b>${r.name}</b><br><small>${r.desc} · maks ${r.cap} orang</small><br><span class="price">${rupiah(r.perHour)}</span> <small>/ jam</small>`)).join("");
-    $("#addons").innerHTML = MAWAR.addons.map((a) => optCard("addon", a.id, st.addons.has(a.id),
+    $("#addons").innerHTML = DEMO.addons.map((a) => optCard("addon", a.id, st.addons.has(a.id),
       `<div class="row between"><div><b>${a.name}</b><br><small>${a.note}</small></div><span class="price">+ ${rupiah(a.price)}</span></div>`, "checkbox")).join("");
 
     document.addEventListener("change", (e) => {
@@ -147,7 +147,7 @@
     function renderSummary() {
       const r = room(), s = session();
       const rows = [[`${r.name} · ${s.hours} jam`, r.perHour * s.hours]];
-      st.addons.forEach((id) => { const a = MAWAR.addons.find((x) => x.id === id); rows.push([a.name, a.price]); });
+      st.addons.forEach((id) => { const a = DEMO.addons.find((x) => x.id === id); rows.push([a.name, a.price]); });
       const when = st.time != null ? `${fmtDate(dateOf(st.date))}, ${String(st.time).padStart(2, "0")}:00` : "-";
       $("#lines").innerHTML = `<tr><td colspan="2"><b>${s.name}</b><br><small>${when}</small></td></tr>` +
         rows.map(([k, v]) => `<tr><td>${k}</td><td>${rupiah(v)}</td></tr>`).join("") +

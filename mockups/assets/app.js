@@ -1,5 +1,5 @@
 // Shared helpers and demo data for the PhotoStudio System mockup. No backend: everything is fake.
-const MAWAR = {
+const DEMO = {
   settings: { dpPercent: 50, galleryDays: 30, muaLeadMin: 60, bufferMin: 15, maxFavorites: 20 },
   rooms: [
     { id: "putih", name: "Studio Putih", desc: "Daylight, minimalis, cocok untuk graduation", cap: 6, perHour: 400000, img: "https://images.unsplash.com/photo-1726650680145-d441d5882bdb" },
@@ -20,7 +20,7 @@ const MAWAR = {
 };
 
 // Stock photos: Unsplash License (free to use). Demo gallery for the "Nadia & Raka" booking.
-MAWAR.gallery = ["1554384032-56ff486b6cd4", "1578359219991-efe67fa63626", "1740674570372-068c47883fc5", "1553465528-5a213ccc0c7b",
+DEMO.gallery = ["1554384032-56ff486b6cd4", "1578359219991-efe67fa63626", "1740674570372-068c47883fc5", "1553465528-5a213ccc0c7b",
   "1733122870089-46d9320cf5e4", "1635912369152-144ee6994787", "1551728339-499b333c5c43", "1760328249117-18488466e34c"];
 const photo = (id, w, h) => `https://images.unsplash.com/photo-${id}?w=${w}&h=${h}&fit=crop&crop=faces,entropy&q=70&auto=format`;
 const roomImg = (r, w = 600, h = 450) => `${r.img}?w=${w}&h=${h}&fit=crop&q=70&auto=format`;
