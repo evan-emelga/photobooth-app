@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mawar Studio · Mockup sistem photo studio</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="mock-bar"><span>Mockup untuk pitch, belum sistem asli. Semua data contoh.</span><span>v1 · 17 Nov 2026</span></div>
+
+  <main class="wrap">
+    <section class="hero">
+      <div class="brand" style="margin-bottom:18px"><span class="dot"></span> Mawar Studio</div>
+      <h1>Sistem photo studio, dari booking sampai kirim foto.</h1>
+      <p class="muted" style="max-width:640px">Customer booking ruangan dan tim sendiri lewat website. Admin mengatur jadwal ruangan dan freelancer di satu tempat. Pembayaran lewat Midtrans, dan foto dikirim lewat galeri online.</p>
+    </section>
+
+    <h2>Sisi customer</h2>
+    <div class="grid g3">
+      <a class="card screen-card" href="booking.html">
+        <span class="num">01</span>
+        <h3>Booking sesi</h3>
+        <p class="muted">4 langkah: sesi dan ruangan, kebutuhan tim, tanggal dan jam, lalu bayar DP atau lunas.</p>
+      </a>
+      <a class="card screen-card" href="booking-saya.html">
+        <span class="num">02</span>
+        <h3>Booking saya &amp; galeri</h3>
+        <p class="muted">Status booking, bayar pelunasan, pilih foto favorit untuk diedit, lalu download setelah lunas.</p>
+      </a>
+    </div>
+
+    <h2 class="mt">Sisi admin</h2>
+    <div class="grid g3">
+      <a class="card screen-card" href="admin/index.html">
+        <span class="num">03</span>
+        <h3>Jadwal hari ini</h3>
+        <p class="muted">Semua ruangan dan freelancer dalam satu timeline. Booking yang belum punya tim langsung terlihat.</p>
+      </a>
+      <a class="card screen-card" href="admin/booking.html">
+        <span class="num">04</span>
+        <h3>Detail booking</h3>
+        <p class="muted">Pasang freelancer yang kosong, lihat status bayar dari Midtrans, kirim invoice, upload foto.</p>
+      </a>
+      <a class="card screen-card" href="admin/freelancer.html">
+        <span class="num">05</span>
+        <h3>Freelancer</h3>
+        <p class="muted">Daftar MUA, fotografer, dan stylist. Admin mengisi jam kosong mereka.</p>
+      </a>
+      <a class="card screen-card" href="admin/laporan.html">
+        <span class="num">06</span>
+        <h3>Booking &amp; laporan</h3>
+        <p class="muted">Semua booking dan status bayarnya. Tombol download Excel untuk pembukuan.</p>
+      </a>
+      <a class="card screen-card" href="admin/pengaturan.html">
+        <span class="num">07</span>
+        <h3>Pengaturan</h3>
+        <p class="muted">Ruangan, harga, persen DP, lama galeri dibuka, dan template pesan WhatsApp.</p>
+      </a>
+    </div>
+
+    <h2 class="mt">Keputusan dan asumsi di mockup ini</h2>
+    <div class="grid g2">
+      <div class="card flat stack">
+        <p><b>Customer melihat brand Mawar, bukan nama freelancer.</b> Customer hanya mencentang kebutuhan (fotografer, MUA, stylist). Admin yang memilih orangnya.</p>
+        <p><b>Jadwal freelancer diisi admin.</b> Freelancer belum perlu login. Mereka dapat jadwal job lewat WhatsApp.</p>
+        <p><b>Jam yang tampil ke customer sudah dicek dua hal:</b> ruangan kosong, dan ada freelancer yang kosong untuk kebutuhan yang dicentang.</p>
+      </div>
+      <div class="card flat stack">
+        <p><b>Bayar online lewat Midtrans Snap</b> (QRIS, e-wallet, VA, kartu). Status bayar berubah sendiri saat customer bayar. Admin tidak perlu cek mutasi.</p>
+        <p><b>Persen DP, jumlah ruangan, dan lama galeri dibuka</b> bisa diatur admin di halaman Pengaturan. Contoh di mockup: DP 50%, 3 ruangan, galeri 30 hari.</p>
+        <p><b>Pembukuan tidak dibuat.</b> Cukup download Excel dari halaman Laporan.</p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pengaturan · Mawar Admin</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .set { display: grid; grid-template-columns: 220px 1fr; gap: 20px; padding: 22px 0; border-top: 1px solid var(--line); }
+    .set:first-of-type { border-top: 0; }
+    .set > div:first-child p { font-size: 13px; color: var(--muted); }
+    .inline { display: flex; gap: 8px; align-items: center; }
+    .inline input { width: 110px; }
+    .sw { display: flex; align-items: center; gap: 10px; font-weight: 500; cursor: pointer; }
+    .sw input { width: 18px; height: 18px; accent-color: var(--rose); }
+    @media (max-width: 860px) { .set { grid-template-columns: 1fr; gap: 8px; } }
+  </style>
+</head>
+<body>
+  <div class="mock-bar"><a href="../index.html">← Semua layar</a><span>07 · Admin: pengaturan</span></div>
+  <div class="admin">
+    <aside class="side" id="side"></aside>
+    <main class="main" style="max-width:980px">
+      <div class="main-head">
+        <div><h1 style="margin:0">Pengaturan</h1><p class="muted" style="margin:0">Semua angka di sini dipakai langsung oleh halaman booking customer.</p></div>
+        <button class="btn sm rose" onclick="toast('Pengaturan disimpan')">Simpan perubahan</button>
+      </div>
+
+      <section class="set">
+        <div><h3>Ruangan</h3><p>Tambah, ubah, atau nonaktifkan ruangan. Ruangan nonaktif tidak tampil ke customer.</p></div>
+        <div>
+          <div class="table-wrap"><table class="t" id="rooms"></table></div>
+          <button class="btn sm ghost mt" id="add-room">+ Tambah ruangan</button>
+        </div>
+      </section>
+
+      <section class="set">
+        <div><h3>Jenis sesi</h3><p>Durasi dipakai untuk menghitung harga ruangan dan jam yang tersedia.</p></div>
+        <div class="table-wrap"><table class="t">
+          <tr><th>Sesi</th><th>Durasi</th><th>Tampil</th></tr>
+          <tr><td>Prewedding</td><td><div class="inline"><input type="number" value="3" min="1" aria-label="Durasi prewedding"> jam</div></td><td><input type="checkbox" checked aria-label="Tampil"></td></tr>
+          <tr><td>Graduation</td><td><div class="inline"><input type="number" value="1" min="1" aria-label="Durasi graduation"> jam</div></td><td><input type="checkbox" checked aria-label="Tampil"></td></tr>
+          <tr><td>Family / Personal</td><td><div class="inline"><input type="number" value="1" min="1" aria-label="Durasi family"> jam</div></td><td><input type="checkbox" checked aria-label="Tampil"></td></tr>
+          <tr><td>Sewa studio saja</td><td><div class="inline"><input type="number" value="2" min="1" aria-label="Durasi sewa"> jam</div></td><td><input type="checkbox" checked aria-label="Tampil"></td></tr>
+        </table></div>
+      </section>
+
+      <section class="set">
+        <div><h3>Harga tim</h3><p>Harga yang dilihat customer saat mencentang kebutuhan tim.</p></div>
+        <div class="grid g3">
+          <div class="field"><label for="p1">Fotografer</label><input id="p1" type="text" value="Rp 800.000"></div>
+          <div class="field" style="margin:0"><label for="p2">MUA</label><input id="p2" type="text" value="Rp 650.000"></div>
+          <div class="field" style="margin:0"><label for="p3">Stylist</label><input id="p3" type="text" value="Rp 450.000"></div>
+        </div>
+      </section>
+
+      <section class="set">
+        <div><h3>Pembayaran</h3><p>Customer bayar lewat Midtrans (QRIS, e-wallet, VA, kartu).</p></div>
+        <div class="stack">
+          <div><label for="dp">Besar DP</label><div class="inline"><input id="dp" type="number" value="50" min="0" max="100"> %</div>
+            <p class="hint" id="dp-ex"></p></div>
+          <div><label for="hold">Jadwal ditahan selama proses bayar</label><div class="inline"><input id="hold" type="number" value="15" min="5"> menit</div></div>
+          <label class="sw"><input type="checkbox" checked> Boleh bayar lunas langsung</label>
+          <p><span class="badge paid">Midtrans terhubung</span> <small class="muted">Mode: Sandbox (uji coba)</small></p>
+        </div>
+      </section>
+
+      <section class="set">
+        <div><h3>Galeri foto</h3><p>Aturan galeri untuk tiap booking.</p></div>
+        <div class="stack">
+          <div><label for="gd">Galeri dibuka selama</label><div class="inline"><input id="gd" type="number" value="30" min="1"> hari setelah foto diupload</div></div>
+          <div><label for="fv">Maksimal foto favorit untuk diedit</label><div class="inline"><input id="fv" type="number" value="20" min="1"> foto</div></div>
+          <label class="sw"><input type="checkbox" checked> Pakai watermark sampai lunas</label>
+          <label class="sw"><input type="checkbox" checked> Download ukuran penuh hanya setelah lunas</label>
+        </div>
+      </section>
+
+      <section class="set">
+        <div><h3>Jadwal</h3><p>Dipakai untuk membuat jam yang tersedia.</p></div>
+        <div class="stack">
+          <div class="inline"><label for="o1" style="margin:0;width:110px">Jam buka</label><input id="o1" type="text" value="08:00"> <span>sampai</span> <input type="text" value="21:00" aria-label="Jam tutup"></div>
+          <div><label for="bf">Jeda bersih antar sesi</label><div class="inline"><input id="bf" type="number" value="15" min="0"> menit</div></div>
+          <div><label for="ml">MUA mulai rias sebelum sesi</label><div class="inline"><input id="ml" type="number" value="60" min="0"> menit</div></div>
+          <div><label for="lb">Customer bisa booking paling jauh</label><div class="inline"><input id="lb" type="number" value="90" min="1"> hari ke depan</div></div>
+        </div>
+      </section>
+
+      <section class="set">
+        <div><h3>Pesan WhatsApp</h3><p>Dikirim otomatis. Kata dalam {kurung} diganti dengan data booking.</p></div>
+        <div class="stack">
+          <label class="sw"><input type="checkbox" checked> Konfirmasi setelah bayar</label>
+          <label class="sw"><input type="checkbox" checked> Pengingat H-1 ke customer</label>
+          <label class="sw"><input type="checkbox" checked> Jadwal job ke freelancer</label>
+          <label class="sw"><input type="checkbox" checked> Link galeri setelah foto diupload</label>
+          <div><label for="tpl">Template konfirmasi</label>
+            <textarea id="tpl" rows="5">Halo {nama}! 🌹
+Booking kamu di Mawar Studio sudah terkonfirmasi.
+Kode: {kode}
+Sesi: {sesi} di {ruangan}
+Waktu: {tanggal}, {jam}</textarea></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    adminNav("pengaturan");
+    const tbl = document.getElementById("rooms");
+    const row = (r) => `<tr><td><input type="text" value="${r.name}" aria-label="Nama ruangan" style="min-width:140px"></td>
+      <td><div class="inline"><input type="number" value="${r.cap}" aria-label="Kapasitas" style="width:70px"> orang</div></td>
+      <td><input type="text" value="${rupiah(r.perHour)}" aria-label="Harga per jam" style="width:130px"> <small class="muted">/ jam</small></td>
+      <td><label class="sw"><input type="checkbox" checked> Aktif</label></td></tr>`;
+    tbl.innerHTML = `<tr><th>Nama</th><th>Kapasitas</th><th>Harga</th><th>Status</th></tr>` + MAWAR.rooms.map(row).join("");
+    document.getElementById("add-room").addEventListener("click", () => {
+      tbl.insertAdjacentHTML("beforeend", row({ name: "Studio baru", cap: 4, perHour: 400000 }));
+      tbl.querySelector("tr:last-child input").focus();
+    });
+    const dp = document.getElementById("dp");
+    const ex = () => document.getElementById("dp-ex").textContent =
+      `Contoh: booking Rp 2.800.000, customer bayar DP ${rupiah(2800000 * (+dp.value || 0) / 100)} dulu.`;
+    dp.addEventListener("input", ex); ex();
+  </script>
+</body>
+</html>

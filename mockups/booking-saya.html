@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Booking saya · Mawar Studio</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div class="mock-bar"><a href="index.html">← Semua layar</a><span>02 · Customer: booking saya &amp; galeri</span></div>
+  <header class="site-head"><div class="wrap"><a class="brand" href="booking.html"><span class="dot"></span> Mawar Studio</a><a href="booking.html" class="btn ghost sm">Booking baru</a></div></header>
+
+  <main class="wrap">
+    <div class="row between">
+      <div>
+        <p class="step-label">Kode booking MWR-1127</p>
+        <h1>Prewedding · Nadia &amp; Raka</h1>
+        <p class="muted">Studio Rose · Jumat, 20 Nov 2026, 10:00 sampai 13:00 · Fotografer, MUA</p>
+      </div>
+      <span class="badge dp" id="pay-badge">DP terbayar</span>
+    </div>
+
+    <div class="grid g2 mt" style="align-items:start">
+      <div class="card">
+        <h3>Status</h3>
+        <ol class="timeline">
+          <li class="done"><b>Booking dibuat</b><br><small>17 Nov, 20:14</small></li>
+          <li class="done"><b>DP 50% dibayar</b><br><small>Rp 1.400.000 lewat QRIS</small></li>
+          <li class="done"><b>Sesi foto selesai</b><br><small>20 Nov, 13:00</small></li>
+          <li class="done"><b>Foto siap dipilih</b><br><small>48 foto diupload studio</small></li>
+          <li class="now" id="tl-paid"><b>Pelunasan</b><br><small id="tl-paid-sub">Sisa Rp 1.400.000</small></li>
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3>Pembayaran</h3>
+        <table class="lines">
+          <tr><td>Total</td><td>Rp 2.800.000</td></tr>
+          <tr><td>Sudah dibayar</td><td id="paid-amt">Rp 1.400.000</td></tr>
+          <tr class="total"><td>Sisa</td><td id="due-amt">Rp 1.400.000</td></tr>
+        </table>
+        <button class="btn rose block mt" id="pay-rest">Bayar pelunasan Rp 1.400.000</button>
+        <a class="btn ghost block mt" href="#" onclick="toast('Invoice PDF akan terdownload (contoh)'); return false;">Download invoice</a>
+      </div>
+    </div>
+
+    <section class="mt" id="gal">
+      <div class="row between">
+        <div>
+          <h2>Galeri foto</h2>
+          <p class="muted" style="margin:0">Pilih foto favorit (❤) untuk diedit. Galeri terbuka sampai <b>20 Des 2026</b> (30 hari).</p>
+        </div>
+        <div class="row">
+          <span class="badge rose"><span id="fav-count">0</span> / 20 favorit</span>
+          <button class="btn sm" id="send-fav">Kirim pilihan ke studio</button>
+        </div>
+      </div>
+      <div class="note mt" id="lock-note">🔒 Foto masih pakai watermark. Download ukuran penuh terbuka setelah pelunasan.</div>
+      <div class="gallery mt" id="photos"></div>
+      <div class="row mt">
+        <button class="btn" id="dl" disabled>Download semua (ZIP, ukuran penuh)</button>
+        <small class="muted" id="dl-note">Terbuka setelah lunas.</small>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/app.js"></script>
+  <script>
+    const favs = new Set([2, 5, 9]);
+    const box = document.getElementById("photos");
+    box.innerHTML = Array.from({ length: 16 }, (_, i) => `
+      <div class="ph">
+        <img src="https://picsum.photos/seed/mawar-g${i}/300/400?grayscale" alt="Foto ${i + 1}" loading="lazy">
+        <div class="wm">Mawar Studio</div>
+        <button class="fav" data-i="${i}" aria-label="Favorit foto ${i + 1}">❤</button>
+      </div>`).join("");
+    function paintFav() {
+      box.querySelectorAll(".fav").forEach((b) => { const on = favs.has(+b.dataset.i); b.classList.toggle("on", on); b.setAttribute("aria-pressed", on); });
+      document.getElementById("fav-count").textContent = favs.size;
+    }
+    box.addEventListener("click", (e) => {
+      const b = e.target.closest(".fav"); if (!b) return;
+      const i = +b.dataset.i;
+      favs.has(i) ? favs.delete(i) : favs.size < MAWAR.settings.maxFavorites ? favs.add(i) : toast("Maksimal 20 foto favorit");
+      paintFav();
+    });
+    paintFav();
+    document.getElementById("send-fav").addEventListener("click", () => toast(`${favs.size} foto dikirim ke studio untuk diedit`));
+
+    document.getElementById("pay-rest").addEventListener("click", () => openSnap(1400000, "Pelunasan · MWR-1127", (m) => {
+      document.getElementById("pay-badge").className = "badge paid";
+      document.getElementById("pay-badge").textContent = "Lunas";
+      document.getElementById("paid-amt").textContent = "Rp 2.800.000";
+      document.getElementById("due-amt").textContent = "Rp 0";
+      document.getElementById("tl-paid").className = "done";
+      document.getElementById("tl-paid-sub").textContent = `Lunas lewat ${m}`;
+      document.getElementById("pay-rest").classList.add("hide");
+      document.getElementById("lock-note").textContent = "✅ Lunas. Watermark hilang dan semua foto bisa didownload.";
+      document.getElementById("gal").classList.add("unlocked");
+      document.getElementById("dl").disabled = false;
+      document.getElementById("dl-note").textContent = "48 foto · 1,2 GB";
+      toast("Pembayaran diterima. Galeri terbuka!");
+    }));
+    document.getElementById("dl").addEventListener("click", () => toast("Download ZIP dimulai (contoh)"));
+  </script>
+</body>
+</html>

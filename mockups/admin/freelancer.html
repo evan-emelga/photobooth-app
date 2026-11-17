@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Freelancer · Mawar Admin</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <style>
+    .people button { display: flex; justify-content: space-between; width: 100%; text-align: left; background: none; border: 0; border-radius: 10px; padding: 10px 12px; font: inherit; cursor: pointer; color: var(--ink); }
+    .people button:hover { background: var(--bg); }
+    .people button.on { background: var(--rose-soft); }
+    .people h4 { margin: 14px 12px 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="mock-bar"><a href="../index.html">← Semua layar</a><span>05 · Admin: freelancer</span></div>
+  <div class="admin">
+    <aside class="side" id="side"></aside>
+    <main class="main">
+      <div class="main-head">
+        <div><h1 style="margin:0">Freelancer</h1><p class="muted" style="margin:0">Admin mengisi jam kosong tiap freelancer. Sistem memakai data ini untuk jam yang tampil ke customer.</p></div>
+        <button class="btn sm rose" onclick="toast('Contoh: form tambah freelancer (nama, peran, WhatsApp, tarif)')">+ Tambah freelancer</button>
+      </div>
+
+      <div class="grid" style="grid-template-columns:minmax(200px,260px) 1fr;align-items:start" id="cols">
+        <div class="card flat people" id="people" style="padding:8px"></div>
+
+        <div class="card flat">
+          <div class="row between">
+            <div>
+              <h2 style="margin:0" id="p-name"></h2>
+              <p class="muted" style="margin:0" id="p-meta"></p>
+            </div>
+            <div class="row">
+              <button class="btn ghost sm" onclick="toast('Jam kosong minggu lalu disalin')">Salin minggu lalu</button>
+              <button class="btn sm" onclick="toast('Jam kosong disimpan')">Simpan</button>
+            </div>
+          </div>
+          <div class="row between mt">
+            <b>Minggu 16 sampai 22 Nov 2026</b>
+            <small class="muted">Klik kotak untuk ubah kosong / tidak kosong</small>
+          </div>
+          <div style="overflow-x:auto" class="mt"><div class="avail" id="grid"></div></div>
+          <div class="row mt" style="font-size:13px">
+            <span class="badge" style="background:#cfe5d8;color:var(--green)">Kosong</span>
+            <span class="badge rose">Sudah ada job</span>
+            <span class="badge">Tidak kosong</span>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    adminNav("freelancer");
+    if (innerWidth < 860) document.getElementById("cols").style.gridTemplateColumns = "1fr";
+    const people = [
+      { n: "Bayu", r: "Fotografer", wa: "0813 1111 2222", jobs: 6, free: [[0, 8, 18], [1, 8, 18], [4, 8, 18], [5, 9, 21], [6, 9, 21]], busy: [[4, 10, 13], [4, 15, 18]] },
+      { n: "Andre", r: "Fotografer", wa: "0813 3333 4444", jobs: 4, free: [[2, 9, 15], [3, 9, 15], [4, 9, 15], [5, 10, 20]], busy: [[4, 9, 10], [4, 13, 14]] },
+      { n: "Dewi", r: "Fotografer", wa: "0813 5555 6666", jobs: 2, free: [[5, 8, 14], [6, 8, 14]], busy: [] },
+      { n: "Rina", r: "MUA", wa: "0812 7777 8888", jobs: 5, free: [[0, 8, 15], [2, 8, 15], [4, 8, 15], [5, 8, 15]], busy: [[4, 9, 10], [4, 14, 15]] },
+      { n: "Sari", r: "MUA", wa: "0812 9999 0000", jobs: 3, free: [[3, 12, 20], [4, 12, 20], [6, 10, 18]], busy: [] },
+      { n: "Maya", r: "Stylist", wa: "0811 2222 3333", jobs: 2, free: [[4, 10, 18], [5, 10, 18]], busy: [[4, 15, 18]] },
+    ];
+    let cur = 0;
+    const days = ["Sen 16", "Sel 17", "Rab 18", "Kam 19", "Jum 20", "Sab 21", "Min 22"];
+    const H0 = 8, H1 = 21;
+    const inRange = (list, d, h) => list.some(([dd, a, b]) => dd === d && h >= a && h < b);
+
+    function renderList() {
+      const roles = [...new Set(people.map((p) => p.r))];
+      document.getElementById("people").innerHTML = roles.map((r) => `<h4>${r}</h4>` +
+        people.map((p, i) => p.r !== r ? "" : `<button data-i="${i}" class="${i === cur ? "on" : ""}">${p.n}<small class="muted">${p.jobs} job bulan ini</small></button>`).join("")).join("");
+    }
+    function renderGrid() {
+      const p = people[cur];
+      document.getElementById("p-name").textContent = p.n;
+      document.getElementById("p-meta").textContent = `${p.r} · WA ${p.wa}`;
+      let h = `<div></div>` + days.map((d) => `<div class="h">${d}</div>`).join("");
+      for (let hr = H0; hr < H1; hr++) {
+        h += `<div class="t">${String(hr).padStart(2, "0")}:00</div>`;
+        for (let d = 0; d < 7; d++) {
+          const busy = inRange(p.busy, d, hr), on = busy || inRange(p.free, d, hr);
+          h += `<button class="cell ${busy ? "busy" : on ? "on" : ""}" data-d="${d}" data-h="${hr}" aria-label="${days[d]} ${hr}:00" ${busy ? 'title="Sudah ada job"' : ""}></button>`;
+        }
+      }
+      document.getElementById("grid").innerHTML = h;
+    }
+    document.getElementById("people").addEventListener("click", (e) => { const b = e.target.closest("[data-i]"); if (b) { cur = +b.dataset.i; renderList(); renderGrid(); } });
+    document.getElementById("grid").addEventListener("click", (e) => {
+      const c = e.target.closest(".cell"); if (!c || c.classList.contains("busy")) return;
+      c.classList.toggle("on");
+    });
+    renderList(); renderGrid();
+  </script>
+</body>
+</html>

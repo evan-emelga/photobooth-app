@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Booking &amp; laporan · Mawar Admin</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="mock-bar"><a href="../index.html">← Semua layar</a><span>06 · Admin: booking &amp; laporan</span></div>
+  <div class="admin">
+    <aside class="side" id="side"></aside>
+    <main class="main">
+      <div class="main-head">
+        <div><h1 style="margin:0">Booking &amp; laporan</h1><p class="muted" style="margin:0">Semua booking dan status bayarnya. Download Excel untuk pembukuan.</p></div>
+        <button class="btn sm green" id="xls">⬇ Download Excel</button>
+      </div>
+
+      <div class="row" style="margin-bottom:14px">
+        <select id="month" style="width:auto" aria-label="Bulan"><option>November 2026</option><option>Oktober 2026</option></select>
+        <select id="status" style="width:auto" aria-label="Status bayar">
+          <option value="">Semua status</option><option value="Lunas">Lunas</option><option value="DP">DP</option><option value="Belum bayar">Belum bayar</option>
+        </select>
+        <input type="text" id="q" placeholder="Cari nama atau kode" style="width:220px" aria-label="Cari">
+      </div>
+
+      <div class="kpis" id="kpis"></div>
+      <div class="table-wrap"><table class="t" id="tbl"></table></div>
+      <p class="hint">Excel berisi kolom yang sama dengan tabel ini, sesuai filter yang dipilih.</p>
+    </main>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    adminNav("laporan");
+    const rows = [
+      ["MWR-1127", "20 Nov", "Nadia & Raka", "Prewedding", "Studio Rose", "Bayu, Rina", 2800000, 1400000, "QRIS"],
+      ["MWR-1128", "20 Nov", "Dimas & Ayu", "Prewedding", "Studio Rose", "Bayu, Rina, Maya", 3250000, 3250000, "VA BCA"],
+      ["MWR-1124", "20 Nov", "Kevin & keluarga", "Graduation", "Studio Putih", "Andre", 1200000, 1200000, "GoPay"],
+      ["MWR-1125", "20 Nov", "Sinta", "Graduation", "Studio Putih", "Andre", 1200000, 600000, "QRIS"],
+      ["MWR-1126", "20 Nov", "Keluarga Tan", "Family", "Studio Hitam", "Dewi", 1150000, 1150000, "VA Mandiri"],
+      ["MWR-1129", "20 Nov", "Kopi Senja", "Sewa studio", "Studio Putih", "-", 800000, 0, "-"],
+      ["MWR-1130", "20 Nov", "Vania", "Personal", "Studio Hitam", "Belum ada", 1150000, 575000, "QRIS"],
+      ["MWR-1119", "15 Nov", "Gita & Bram", "Prewedding", "Studio Rose", "Bayu, Sari", 2800000, 2800000, "Kartu kredit"],
+      ["MWR-1112", "12 Nov", "SMA Tunas", "Graduation", "Studio Putih", "Andre, Rina", 1850000, 1850000, "VA BCA"],
+      ["MWR-1107", "8 Nov", "Lukas", "Sewa studio", "Studio Hitam", "-", 700000, 700000, "Tunai"],
+    ].map(([code, date, name, sess, room, team, total, paid, method]) => ({ code, date, name, sess, room, team, total, paid, method,
+      status: paid >= total ? "Lunas" : paid > 0 ? "DP" : "Belum bayar" }));
+    const cls = { "Lunas": "paid", "DP": "dp", "Belum bayar": "unpaid" };
+    const $ = (s) => document.querySelector(s);
+
+    function filtered() {
+      const st = $("#status").value, q = $("#q").value.toLowerCase();
+      return rows.filter((r) => (!st || r.status === st) && (!q || (r.name + r.code).toLowerCase().includes(q)));
+    }
+    function render() {
+      const f = filtered();
+      const sum = (k) => f.reduce((a, r) => a + r[k], 0);
+      $("#kpis").innerHTML = `<div class="kpi"><b>${f.length}</b><span>Booking</span></div>
+        <div class="kpi"><b>${rupiah(sum("total"))}</b><span>Total tagihan</span></div>
+        <div class="kpi"><b style="color:var(--green)">${rupiah(sum("paid"))}</b><span>Sudah masuk</span></div>
+        <div class="kpi"><b style="color:var(--amber)">${rupiah(sum("total") - sum("paid"))}</b><span>Belum dibayar</span></div>`;
+      $("#tbl").innerHTML = `<tr><th>Kode</th><th>Tanggal</th><th>Customer</th><th>Sesi</th><th>Ruangan</th><th>Tim</th><th class="num">Total</th><th class="num">Dibayar</th><th>Status</th></tr>` +
+        f.map((r) => `<tr><td><a href="booking.html">${r.code}</a></td><td>${r.date}</td><td>${r.name}</td><td>${r.sess}</td><td>${r.room}</td><td>${r.team}</td>
+          <td class="num">${rupiah(r.total)}</td><td class="num">${rupiah(r.paid)}</td><td><span class="badge ${cls[r.status]}">${r.status}</span></td></tr>`).join("");
+    }
+    ["#status", "#q"].forEach((s) => $(s).addEventListener("input", render));
+
+    // Real download: a CSV file that Excel opens directly.
+    $("#xls").addEventListener("click", () => {
+      const head = ["Kode", "Tanggal", "Customer", "Sesi", "Ruangan", "Tim", "Total", "Dibayar", "Sisa", "Metode", "Status"];
+      const esc = (v) => `"${String(v).replace(/"/g, '""')}"`;
+      const lines = [head, ...filtered().map((r) => [r.code, r.date + " 2026", r.name, r.sess, r.room, r.team, r.total, r.paid, r.total - r.paid, r.method, r.status])]
+        .map((l) => l.map(esc).join(","));
+      const blob = new Blob(["sep=,\n" + lines.join("\n")], { type: "text/csv;charset=utf-8" });
+      const a = Object.assign(document.createElement("a"), { href: URL.createObjectURL(blob), download: "mawar-booking-november-2026.csv" });
+      a.click();
+      toast("File Excel terdownload");
+    });
+    render();
+  </script>
+</body>
+</html>

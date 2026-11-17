@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MWR-1127 · Mawar Admin</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="mock-bar"><a href="../index.html">← Semua layar</a><span>04 · Admin: detail booking</span></div>
+  <div class="admin">
+    <aside class="side" id="side"></aside>
+    <main class="main">
+      <p><a href="index.html">← Jadwal</a></p>
+      <div class="main-head">
+        <div>
+          <p class="step-label" style="margin:0">MWR-1127 · Prewedding</p>
+          <h1 style="margin:0">Nadia &amp; Raka</h1>
+        </div>
+        <div class="row">
+          <span class="badge dp" id="badge">DP terbayar</span>
+          <button class="btn ghost sm" onclick="toast('Invoice PDF terdownload (contoh)')">Download invoice</button>
+          <button class="btn sm" onclick="toast('Invoice dikirim ke WhatsApp customer')">Kirim invoice via WA</button>
+        </div>
+      </div>
+
+      <div class="grid g2" style="align-items:start">
+        <div class="stack">
+          <div class="card">
+            <h3>Detail sesi</h3>
+            <table class="lines">
+              <tr><td class="muted">Ruangan</td><td>Studio Rose</td></tr>
+              <tr><td class="muted">Waktu</td><td>Jumat, 20 Nov 2026 · 10:00 sampai 13:00</td></tr>
+              <tr><td class="muted">MUA mulai rias</td><td>09:00</td></tr>
+              <tr><td class="muted">WhatsApp</td><td>0812 3456 7890</td></tr>
+              <tr><td class="muted">Catatan</td><td>Konsep rustic, bawa 2 baju</td></tr>
+            </table>
+          </div>
+
+          <div class="card">
+            <h3>Tim untuk sesi ini</h3>
+            <p class="muted" style="font-size:13px">Hanya freelancer yang jam kosongnya cocok yang bisa dipilih. Customer tidak melihat nama freelancer.</p>
+            <div class="field">
+              <label for="f-foto">Fotografer · 10:00 sampai 13:00</label>
+              <select id="f-foto">
+                <option selected>Bayu · kosong</option>
+                <option>Andre · kosong</option>
+                <option disabled>Dewi · tidak kosong (ada job 09:00 sampai 12:00)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="f-mua">MUA · 09:00 sampai 10:00</label>
+              <select id="f-mua">
+                <option selected>Rina · kosong</option>
+                <option disabled>Sari · tidak kosong (mulai 12:00)</option>
+              </select>
+            </div>
+            <button class="btn block mt" id="send-team">Kirim jadwal ke tim via WA</button>
+            <div class="wa mt hide" id="wa-team"><div class="who">Ke Bayu (Fotografer)</div><div class="msg">Halo Bayu, ada job dari Mawar Studio 📸
+Prewedding · Studio Rose
+Jumat, 20 Nov 2026, 10:00 sampai 13:00
+Konsep: rustic, 2 baju
+
+Balas YA untuk konfirmasi ya.</div></div>
+          </div>
+        </div>
+
+        <div class="stack">
+          <div class="card">
+            <div class="row between"><h3 style="margin:0">Pembayaran</h3><small class="muted">via Midtrans</small></div>
+            <p class="muted" style="font-size:13px;margin-top:6px">Status berubah sendiri saat customer bayar. Admin tidak perlu cek mutasi rekening.</p>
+            <table class="lines">
+              <tr><td>Total</td><td>Rp 2.800.000</td></tr>
+              <tr><td>Sudah dibayar</td><td id="a-paid">Rp 1.400.000</td></tr>
+              <tr class="total"><td>Sisa</td><td id="a-due">Rp 1.400.000</td></tr>
+            </table>
+            <div class="table-wrap mt">
+              <table class="t" id="hist">
+                <tr><th>Waktu</th><th>Jenis</th><th>Metode</th><th class="num">Jumlah</th></tr>
+                <tr><td>17 Nov, 20:14</td><td>DP 50%</td><td>QRIS</td><td class="num">Rp 1.400.000</td></tr>
+              </table>
+            </div>
+            <div class="row mt">
+              <button class="btn sm rose" onclick="toast('Link bayar pelunasan dikirim via WhatsApp')">Kirim link pelunasan via WA</button>
+              <button class="btn sm ghost" id="manual">Tandai lunas manual</button>
+            </div>
+            <p class="hint">"Tandai lunas manual" hanya untuk customer yang bayar tunai di studio.</p>
+          </div>
+
+          <div class="card">
+            <h3>Foto</h3>
+            <p class="muted" style="font-size:13px">48 foto sudah diupload. Customer memilih 3 favorit untuk diedit.</p>
+            <label class="drop" for="files" style="display:block;cursor:pointer;font-weight:400">
+              <b style="color:var(--ink)">Tarik foto ke sini</b> atau klik untuk pilih file<br><small>JPG atau PNG, bisa banyak sekaligus</small>
+            </label>
+            <input id="files" type="file" accept="image/*" multiple class="hide">
+            <div class="gallery mt" id="thumbs" style="grid-template-columns:repeat(auto-fill,minmax(70px,1fr))"></div>
+            <div class="row mt">
+              <button class="btn sm" onclick="toast('Link galeri dikirim ke WhatsApp customer')">Kirim link galeri via WA</button>
+              <button class="btn sm ghost" onclick="toast('3 foto favorit terdownload untuk diedit (contoh)')">Download favorit customer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    adminNav("jadwal");
+    const thumbs = document.getElementById("thumbs");
+    const addThumb = (src, alt) => {
+      const d = document.createElement("div"); d.className = "ph";
+      const img = document.createElement("img"); img.src = src; img.alt = alt; d.appendChild(img);
+      thumbs.appendChild(d);
+    };
+    for (let i = 0; i < 8; i++) addThumb(`https://picsum.photos/seed/mawar-g${i}/120/160?grayscale`, `Foto ${i + 1}`);
+    document.getElementById("files").addEventListener("change", (e) => {
+      [...e.target.files].forEach((f) => addThumb(URL.createObjectURL(f), f.name));
+      toast(`${e.target.files.length} foto ditambahkan (contoh, tidak benar-benar diupload)`);
+    });
+    document.getElementById("send-team").addEventListener("click", () => {
+      document.getElementById("wa-team").classList.remove("hide");
+      toast("Jadwal dikirim ke Bayu dan Rina");
+    });
+    document.getElementById("manual").addEventListener("click", () => {
+      if (!confirm("Tandai booking ini lunas? Pakai ini hanya untuk pembayaran tunai.")) return;
+      document.getElementById("badge").className = "badge paid";
+      document.getElementById("badge").textContent = "Lunas";
+      document.getElementById("a-paid").textContent = "Rp 2.800.000";
+      document.getElementById("a-due").textContent = "Rp 0";
+      document.getElementById("hist").insertAdjacentHTML("beforeend", `<tr><td>Baru saja</td><td>Pelunasan</td><td>Tunai (manual)</td><td class="num">Rp 1.400.000</td></tr>`);
+      toast("Ditandai lunas. Galeri customer terbuka.");
+    });
+  </script>
+</body>
+</html>

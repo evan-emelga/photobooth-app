@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jadwal · Mawar Admin</title>
+  <link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+  <div class="mock-bar"><a href="../index.html">← Semua layar</a><span>03 · Admin: jadwal hari ini</span></div>
+  <div class="admin">
+    <aside class="side" id="side"></aside>
+    <main class="main">
+      <div class="main-head">
+        <div><h1 style="margin:0">Jadwal</h1><p class="muted" style="margin:0">Jumat, 20 November 2026</p></div>
+        <div class="row">
+          <button class="btn ghost sm" onclick="toast('Contoh: pindah ke hari sebelumnya')">‹ Kemarin</button>
+          <input type="date" value="2026-11-20" style="width:auto" aria-label="Pilih tanggal">
+          <button class="btn ghost sm" onclick="toast('Contoh: pindah ke hari berikutnya')">Besok ›</button>
+          <button class="btn sm rose" onclick="toast('Contoh: form booking manual, untuk customer yang booking lewat WA')">+ Booking manual</button>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi"><b>7</b><span>Booking hari ini</span></div>
+        <div class="kpi"><b style="color:var(--red)">1</b><span>Belum ada tim</span></div>
+        <div class="kpi"><b style="color:var(--amber)">2</b><span>Belum lunas</span></div>
+        <div class="kpi"><b>Rp 48,6 jt</b><span>Pemasukan November</span></div>
+      </div>
+
+      <div class="card flat" style="margin-bottom:16px">
+        <h3>Perlu tindakan</h3>
+        <div class="stack">
+          <div class="row between"><div><span class="badge unpaid">Belum ada tim</span> <b>Vania</b> · Personal, Studio Hitam 19:00 butuh fotografer</div><a class="btn sm" href="booking.html">Pasang freelancer</a></div>
+          <div class="row between"><div><span class="badge dp">Menunggu bayar</span> <b>Kopi Senja</b> · Sewa studio 16:00, slot ditahan sampai 20:29</div><button class="btn sm ghost" onclick="toast('Pengingat bayar dikirim via WhatsApp')">Kirim pengingat</button></div>
+        </div>
+      </div>
+
+      <div class="tl" role="region" aria-label="Timeline ruangan dan freelancer">
+        <div class="tl-grid" id="tl"></div>
+      </div>
+      <div class="row mt" style="font-size:13px">
+        <span class="badge paid">Lunas</span><span class="badge dp">DP</span><span class="badge unpaid">Belum bayar</span>
+        <span class="badge" style="background:#eef3f8;color:#3d5470">Jam kosong freelancer</span><span class="badge rose">Job freelancer</span>
+        <span class="muted">Arsiran = jeda bersih 15 menit</span>
+      </div>
+    </main>
+  </div>
+
+  <script src="../assets/app.js"></script>
+  <script>
+    adminNav("jadwal");
+    const START = 8, HOURS = 13;
+    const pos = (a, b) => `left:${(a - START) / HOURS * 100}%;width:${(b - a) / HOURS * 100}%`;
+    const rooms = [
+      ["Studio Putih", "maks 6 orang", [[9, 10, "paid", "Kevin & keluarga", "Graduation"], [13, 14, "dp", "Sinta", "Graduation"], [16, 18, "unpaid", "Kopi Senja", "Sewa studio"]]],
+      ["Studio Rose", "maks 4 orang", [[10, 13, "dp", "Nadia & Raka", "Prewedding", "booking.html"], [15, 18, "paid", "Dimas & Ayu", "Prewedding"]]],
+      ["Studio Hitam", "maks 8 orang", [[11, 12, "paid", "Keluarga Tan", "Family"], [19, 20, "dp", "Vania", "Personal"]]],
+    ];
+    const people = [
+      ["Rina", "MUA", [[7, 15]], [[9, 10, "Rias Nadia"], [14, 15, "Rias Dimas"]]],
+      ["Sari", "MUA", [[12, 20]], []],
+      ["Bayu", "Fotografer", [[8, 18]], [[10, 13, "Nadia & Raka"], [15, 18, "Dimas & Ayu"]]],
+      ["Andre", "Fotografer", [[9, 15]], [[9, 10, "Kevin"], [13, 14, "Sinta"]]],
+      ["Maya", "Stylist", [[10, 18]], [[15, 18, "Dimas & Ayu"]]],
+    ];
+    const clip = (a, b) => [Math.max(a, START), Math.min(b, START + HOURS)];
+    let html = `<div class="tl-row tl-head"><div class="tl-name"></div><div class="tl-track">${Array.from({ length: HOURS }, (_, i) => `<span>${String(START + i).padStart(2, "0")}:00</span>`).join("")}</div></div>`;
+    html += `<div class="tl-sec">Ruangan</div>`;
+    rooms.forEach(([n, sub, bks]) => {
+      html += `<div class="tl-row"><div class="tl-name">${n}<small class="muted">${sub}</small></div><div class="tl-track">` +
+        bks.map(([a, b, cls, who, what, href]) =>
+          `<a class="blk ${cls}" style="${pos(a, b)}" href="${href || "booking.html"}"><b>${who}</b>${what}</a>` +
+          `<div class="blk buffer" style="${pos(b, b + 0.25)};padding:0" title="Jeda bersih 15 menit"></div>`).join("") +
+        `</div></div>`;
+    });
+    html += `<div class="tl-sec">Freelancer (jam kosong diisi admin)</div>`;
+    people.forEach(([n, role, free, jobs]) => {
+      html += `<div class="tl-row"><div class="tl-name">${n}<small class="muted">${role}</small></div><div class="tl-track">` +
+        free.map(([a, b]) => { [a, b] = clip(a, b); return `<div class="blk free" style="${pos(a, b)};opacity:.6"></div>`; }).join("") +
+        jobs.map(([a, b, what]) => `<a class="blk job" style="${pos(a, b)}" href="booking.html"><b>${what}</b></a>`).join("") +
+        `</div></div>`;
+    });
+    document.getElementById("tl").innerHTML = html;
+  </script>
+</body>
+</html>
