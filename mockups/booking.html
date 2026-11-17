@@ -191,6 +191,14 @@
       });
     });
     render();
+
+    // Demo links for screenshots: ?demo=pay opens the payment sheet, ?demo=qris opens the QRIS step.
+    const demo = new URLSearchParams(location.search).get("demo");
+    if (demo === "pay" || demo === "qris") {
+      st.time = 11; st.step = 4; render();
+      $("#next").click();
+      if (demo === "qris") document.querySelector("#snap .method").click();
+    }
   </script>
 </body>
 </html>
