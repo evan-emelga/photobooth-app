@@ -59,17 +59,17 @@
         <label class="opt"><input type="radio" name="pay" value="dp" checked><div class="box"><b>DP <span data-dp-pct></span>%</b><br><span class="price" data-dp></span><br><small>Sisanya dibayar sebelum download foto.</small></div></label>
         <label class="opt"><input type="radio" name="pay" value="full"><div class="box"><b>Lunas</b><br><span class="price" data-full></span><br><small>Foto bisa langsung didownload setelah jadi.</small></div></label>
       </div>
-      <p class="hint">Jadwal kamu ditahan 15 menit selama proses bayar.</p>
+      <p class="hint">Bayar lewat QRIS atau transfer BCA, lalu upload bukti bayar. Jadwal kamu ditahan 2 jam sampai admin memverifikasi pembayaran.</p>
     </section>
 
     <!-- Done -->
     <section data-step="5" class="hide">
       <div class="card" style="text-align:center">
-        <h1>Booking berhasil!</h1>
-        <p class="muted">Kode booking <b>BK-1127</b>. Pembayaran <span id="paid-kind"></span> diterima lewat <span id="paid-method"></span>.</p>
+        <h1>Bukti bayar terkirim!</h1>
+        <p class="muted">Kode booking <b>BK-1127</b>. Bukti bayar <span id="paid-kind"></span> lewat <span id="paid-method"></span> sedang dicek admin. Jadwal kamu ditahan sampai pembayaran diverifikasi.</p>
         <a class="btn rose" href="booking-saya.html">Lihat booking saya</a>
       </div>
-      <h3 class="mt">Yang customer terima di WhatsApp</h3>
+      <h3 class="mt">Yang customer terima di WhatsApp setelah admin verifikasi</h3>
       <div class="wa"><div class="who">Nama Studio (otomatis)</div><div class="msg" id="wa-msg"></div></div>
     </section>
   </main>
@@ -177,12 +177,12 @@
       if (st.step < 4) { st.step++; render(); window.scrollTo(0, 0); return; }
       const isDp = document.querySelector("input[name=pay]:checked").value === "dp";
       const amt = isDp ? total() * S.dpPercent / 100 : total();
-      openSnap(amt, isDp ? `DP ${S.dpPercent}% · BK-1127` : "Lunas · BK-1127", (method) => {
+      openPay(amt, isDp ? `DP ${S.dpPercent}% · BK-1127` : "Lunas · BK-1127", (method) => {
         $("#paid-kind").textContent = isDp ? `DP ${rupiah(amt)}` : `lunas ${rupiah(amt)}`;
         $("#paid-method").textContent = method;
         const when = `${fmtDate(dateOf(st.date))}, ${String(st.time).padStart(2, "0")}:00`;
         $("#wa-msg").textContent =
-          `Halo ${$("#nm").value}! 🌹\nBooking kamu di Nama Studio sudah terkonfirmasi.\n\n` +
+          `Halo ${$("#nm").value}! 🌹\nPembayaran kamu sudah kami terima dan booking di Nama Studio terkonfirmasi.\n\n` +
           `Kode: BK-1127\nSesi: ${session().name}\nRuangan: ${room().name}\nWaktu: ${when}\n` +
           (st.addons.has("mua") ? `MUA mulai rias: ${String(st.time - 1).padStart(2, "0")}:00\n` : "") +
           `\nDibayar: ${rupiah(amt)}` + (isDp ? `\nSisa: ${rupiah(total() - amt)} (bayar sebelum download foto)` : "") +
@@ -192,12 +192,13 @@
     });
     render();
 
-    // Demo links for screenshots: ?demo=pay opens the payment sheet, ?demo=qris opens the QRIS step.
+    // Demo links for screenshots: ?demo=pay or ?demo=qris opens the QRIS tab, ?demo=bca the BCA tab.
     const demo = new URLSearchParams(location.search).get("demo");
-    if (demo === "pay" || demo === "qris") {
+    if (["pay", "qris", "bca"].includes(demo)) {
       st.time = 11; st.step = 4; render();
       $("#next").click();
-      if (demo === "qris") document.querySelector("#snap .method").click();
+      if (demo === "bca") document.querySelector('#pay [data-tab="bca"]').click();
+      document.activeElement.blur();
     }
   </script>
 </body>

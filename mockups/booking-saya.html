@@ -40,6 +40,7 @@
           <tr class="total"><td>Sisa</td><td id="due-amt">Rp 1.400.000</td></tr>
         </table>
         <button class="btn rose block mt" id="pay-rest">Bayar pelunasan Rp 1.400.000</button>
+        <button class="btn ghost block mt hide" id="verify-demo">Demo: anggap admin sudah verifikasi</button>
         <a class="btn ghost block mt" href="#" onclick="toast('Invoice PDF akan terdownload (contoh)'); return false;">Download invoice</a>
       </div>
     </div>
@@ -87,20 +88,28 @@
     paintFav();
     document.getElementById("send-fav").addEventListener("click", () => toast(`${favs.size} foto dikirim ke studio untuk diedit`));
 
-    document.getElementById("pay-rest").addEventListener("click", () => openSnap(1400000, "Pelunasan · BK-1127", (m) => {
+    document.getElementById("pay-rest").addEventListener("click", () => openPay(1400000, "Pelunasan · BK-1127", (m) => {
+      document.getElementById("pay-badge").className = "badge dp";
+      document.getElementById("pay-badge").textContent = "Menunggu verifikasi";
+      document.getElementById("tl-paid-sub").textContent = `Bukti ${m} terkirim, sedang dicek admin`;
+      document.getElementById("pay-rest").classList.add("hide");
+      document.getElementById("verify-demo").classList.remove("hide");
+      toast("Bukti bayar terkirim. Admin akan memverifikasi.");
+    }));
+    document.getElementById("verify-demo").addEventListener("click", () => {
       document.getElementById("pay-badge").className = "badge paid";
       document.getElementById("pay-badge").textContent = "Lunas";
       document.getElementById("paid-amt").textContent = "Rp 2.800.000";
       document.getElementById("due-amt").textContent = "Rp 0";
       document.getElementById("tl-paid").className = "done";
-      document.getElementById("tl-paid-sub").textContent = `Lunas lewat ${m}`;
-      document.getElementById("pay-rest").classList.add("hide");
+      document.getElementById("tl-paid-sub").textContent = "Diverifikasi admin";
+      document.getElementById("verify-demo").classList.add("hide");
       document.getElementById("lock-note").textContent = "Lunas. Watermark hilang dan semua foto bisa didownload.";
       document.getElementById("gal").classList.add("unlocked");
       document.getElementById("dl").disabled = false;
       document.getElementById("dl-note").textContent = "48 foto · 1,2 GB";
-      toast("Pembayaran diterima. Galeri terbuka!");
-    }));
+      toast("Pembayaran diverifikasi. Galeri terbuka!");
+    });
     document.getElementById("dl").addEventListener("click", () => toast("Download ZIP dimulai (contoh)"));
   </script>
 </body>

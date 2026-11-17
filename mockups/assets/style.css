@@ -143,7 +143,7 @@ input[type=text], input[type=email], input[type=tel], input[type=number], input[
 .lines td:last-child { text-align: right; }
 .lines tr.total td { border-top: 1px solid var(--line); font-weight: 700; padding-top: 10px; }
 
-/* Modal (Midtrans Snap simulation) */
+/* Modal (payment sheet) */
 .modal { position: fixed; inset: 0; background: rgba(20, 16, 14, .55); display: none; align-items: center; justify-content: center; padding: 16px; z-index: 50; }
 .modal.open { display: flex; }
 .sheet { background: #fff; width: 100%; max-width: 400px; border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.3); }
@@ -400,3 +400,17 @@ table.t td.num, table.t th.num { text-align: right; }
 [data-theme="pola"] .door { border-radius: 0; outline: 1.5px dashed var(--ink); outline-offset: 5px; }
 [data-theme="pola"] .door .door-bar { background: var(--rose); }
 .theme-pick select { color: #f3ece4 !important; }
+
+/* Manual payment sheet */
+.paytabs { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; background: #f1ede7; padding: 4px; border-radius: 12px; margin-bottom: 12px; }
+.paytabs button { display: flex; align-items: center; justify-content: center; gap: 8px; border: 0; background: transparent; padding: 9px 6px; border-radius: 9px; font: inherit; font-weight: 600; cursor: pointer; color: #111; }
+.paytabs button[aria-selected="true"] { background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.acct { border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; display: grid; gap: 2px; background: #fff; }
+.acct-no { font-family: var(--mono); font-size: 1.35rem; letter-spacing: .04em; }
+.upload { display: flex; justify-content: space-between; align-items: center; gap: 10px; border: 1.5px dashed #cfc5b8; border-radius: 12px; padding: 12px 14px; cursor: pointer; font-weight: 400; }
+#pay .sheet { --ink: #111; --muted: #5a554d; --line: #dcd8d0; color: #111; }
+.verify { display: grid; grid-template-columns: 150px 1fr; gap: 14px; align-items: center; border: 1px solid var(--line); border-radius: 12px; padding: 12px; margin: 10px 0 12px; background: var(--bg); }
+.receipt { background: #fff; border: 1px solid #d9e2ec; border-top: 5px solid #1a5bb5; border-radius: 8px; padding: 10px; display: grid; gap: 4px; font-size: 12px; color: #1f2b38; box-shadow: 0 4px 10px rgba(0,0,0,.08); transform: rotate(-2deg); }
+.receipt b { font-size: 16px; }
+[data-theme="film"] .verify { --ink: #111; color: #111; background: #fff; }
+@media (max-width: 520px) { .verify { grid-template-columns: 1fr; } }

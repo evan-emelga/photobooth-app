@@ -56,13 +56,18 @@
       </section>
 
       <section class="set">
-        <div><h3>Pembayaran</h3><p>Customer bayar lewat Midtrans (QRIS, e-wallet, VA, kartu).</p></div>
+        <div><h3>Pembayaran</h3><p>Customer bayar lewat QRIS statis atau transfer bank, lalu upload bukti bayar. Admin memverifikasi.</p></div>
         <div class="stack">
           <div><label for="dp">Besar DP</label><div class="inline"><input id="dp" type="number" value="50" min="0" max="100"> %</div>
             <p class="hint" id="dp-ex"></p></div>
-          <div><label for="hold">Jadwal ditahan selama proses bayar</label><div class="inline"><input id="hold" type="number" value="15" min="5"> menit</div></div>
+          <div><label for="hold">Jadwal ditahan sampai pembayaran diverifikasi, paling lama</label><div class="inline"><input id="hold" type="number" value="2" min="1"> jam</div></div>
           <label class="sw"><input type="checkbox" checked> Boleh bayar lunas langsung</label>
-          <p><span class="badge paid">Midtrans terhubung</span> <small class="muted">Mode: Sandbox (uji coba)</small></p>
+          <div><label>Gambar QRIS statis</label><div class="row"><img src="../assets/qr-demo.svg" alt="QRIS saat ini" style="width:72px;height:72px;border:1px solid var(--line);border-radius:8px"><button class="btn ghost sm" onclick="toast('Contoh: upload gambar QRIS baru')">Ganti gambar QRIS</button></div></div>
+          <div class="grid g3">
+            <div class="field" style="margin:0"><label for="bk">Bank</label><input id="bk" type="text" value="BCA"></div>
+            <div class="field" style="margin:0"><label for="rk">Nomor rekening</label><input id="rk" type="text" value="123 456 7890"></div>
+            <div class="field" style="margin:0"><label for="an">Atas nama</label><input id="an" type="text" value="Nama Studio"></div>
+          </div>
         </div>
       </section>
 

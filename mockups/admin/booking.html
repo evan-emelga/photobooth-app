@@ -68,8 +68,24 @@ Balas YA untuk konfirmasi ya.</div></div>
 
         <div class="stack">
           <div class="card">
-            <div class="row between"><h3 style="margin:0">Pembayaran</h3><small class="muted">via Midtrans</small></div>
-            <p class="muted" style="font-size:13px;margin-top:6px">Status berubah sendiri saat customer bayar. Admin tidak perlu cek mutasi rekening.</p>
+            <div class="row between"><h3 style="margin:0">Pembayaran</h3><small class="muted">QRIS statis / transfer BCA</small></div>
+            <p class="muted" style="font-size:13px;margin-top:6px">Customer upload bukti bayar. Cocokkan dengan mutasi rekening atau notifikasi QRIS, lalu klik Terima.</p>
+            <div class="verify" id="verify">
+              <div class="receipt" aria-label="Contoh bukti transfer">
+                <small>m-BCA · Transfer berhasil</small>
+                <b>Rp 1.400.000</b>
+                <small>Ke 123 456 7890 · Nama Studio<br>18 Nov 2026, 21:03 · Berita: BK-1127</small>
+              </div>
+              <div>
+                <span class="badge dp">Menunggu verifikasi</span>
+                <p style="margin:6px 0 2px"><b>Pelunasan Rp 1.400.000</b></p>
+                <p class="muted" style="font-size:13px;margin:0 0 8px">Dikirim customer 18 Nov, 21:04 lewat Transfer BCA</p>
+                <div class="row">
+                  <button class="btn sm green" id="accept">Terima</button>
+                  <button class="btn sm ghost" id="reject">Tolak</button>
+                </div>
+              </div>
+            </div>
             <table class="lines">
               <tr><td>Total</td><td>Rp 2.800.000</td></tr>
               <tr><td>Sudah dibayar</td><td id="a-paid">Rp 1.400.000</td></tr>
@@ -82,10 +98,9 @@ Balas YA untuk konfirmasi ya.</div></div>
               </table>
             </div>
             <div class="row mt">
-              <button class="btn sm rose" onclick="toast('Link bayar pelunasan dikirim via WhatsApp')">Kirim link pelunasan via WA</button>
-              <button class="btn sm ghost" id="manual">Tandai lunas manual</button>
+              <button class="btn sm rose" onclick="toast('Pengingat pelunasan dikirim via WhatsApp')">Kirim pengingat via WA</button>
+              <button class="btn sm ghost" onclick="toast('Contoh: form catat pembayaran tunai')">Catat bayar tunai</button>
             </div>
-            <p class="hint">"Tandai lunas manual" hanya untuk customer yang bayar tunai di studio.</p>
           </div>
 
           <div class="card">
@@ -124,14 +139,18 @@ Balas YA untuk konfirmasi ya.</div></div>
       document.getElementById("wa-team").classList.remove("hide");
       toast("Jadwal dikirim ke Bayu dan Rina");
     });
-    document.getElementById("manual").addEventListener("click", () => {
-      if (!confirm("Tandai booking ini lunas? Pakai ini hanya untuk pembayaran tunai.")) return;
+    document.getElementById("accept").addEventListener("click", () => {
       document.getElementById("badge").className = "badge paid";
       document.getElementById("badge").textContent = "Lunas";
       document.getElementById("a-paid").textContent = "Rp 2.800.000";
       document.getElementById("a-due").textContent = "Rp 0";
-      document.getElementById("hist").insertAdjacentHTML("beforeend", `<tr><td>Baru saja</td><td>Pelunasan</td><td>Tunai (manual)</td><td class="num">Rp 1.400.000</td></tr>`);
-      toast("Ditandai lunas. Galeri customer terbuka.");
+      document.getElementById("hist").insertAdjacentHTML("beforeend", `<tr><td>18 Nov, 21:04</td><td>Pelunasan</td><td>Transfer BCA</td><td class="num">Rp 1.400.000</td></tr>`);
+      document.getElementById("verify").classList.add("hide");
+      toast("Pembayaran diterima. Customer dapat konfirmasi WA dan galeri terbuka.");
+    });
+    document.getElementById("reject").addEventListener("click", () => {
+      document.getElementById("verify").classList.add("hide");
+      toast("Ditolak. Customer diminta upload ulang lewat WhatsApp.");
     });
   </script>
 </body>

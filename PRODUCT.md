@@ -28,7 +28,7 @@ Customers book the studio brand, not a freelancer. The slot picker only shows ti
 
 ## Operating Context
 
-- Payments online through Midtrans Snap (QRIS, e-wallet, VA, card). Status updates automatically.
+- Payments are manual for now (Evan, 17 Nov 2026): static QRIS or BCA transfer, the customer uploads proof, the admin verifies. A payment gateway (e.g. Midtrans) may come later.
 - WhatsApp is the channel for confirmations, reminders, freelancer jobs, and gallery links.
 - Bookkeeping is out of scope; admin downloads Excel.
 

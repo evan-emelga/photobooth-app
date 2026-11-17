@@ -70,15 +70,17 @@ function toast(text) {
 const ASSETS = (document.currentScript && document.currentScript.src) ? new URL(".", document.currentScript.src).href : "assets/";
 const logo = (f, alt, h = 22) => `<img src="${ASSETS}logos/${f}.svg" alt="${alt}" style="height:${h}px;width:auto;display:inline-block">`;
 
-// Midtrans Snap simulation. Calls onPaid(method) when the user taps "bayar berhasil".
-function openSnap(amount, label, onPaid) {
-  let m = document.getElementById("snap");
+// Manual payment sheet: static QRIS or BCA transfer, customer uploads proof, admin verifies.
+// Calls onSent(method) when the customer sends the proof. tab = "qris" | "bca".
+function openPay(amount, label, onSent, tab = "qris") {
+  let m = document.getElementById("pay");
   if (!m) {
     m = document.createElement("div");
-    m.id = "snap";
+    m.id = "pay";
     m.className = "modal";
     m.setAttribute("role", "dialog");
     m.setAttribute("aria-modal", "true");
+    m.setAttribute("aria-label", "Pembayaran");
     m.innerHTML = `
       <div class="sheet">
         <div class="top row between">
@@ -86,50 +88,57 @@ function openSnap(amount, label, onPaid) {
           <div style="text-align:right"><small>Total</small><br><b data-amount></b></div>
         </div>
         <div class="body">
-          <div data-list>
-            <p class="muted" style="font-size:13px">Simulasi Midtrans Snap. Pilih metode bayar:</p>
-            <button class="method" data-m="QRIS"><span class="m-name">QRIS<small class="muted">Semua e-wallet &amp; m-banking</small></span><span class="m-logos">${logo("qris", "QRIS")}</span></button>
-            <button class="method" data-m="GoPay"><span class="m-name">GoPay</span><span class="m-logos">${logo("gopay", "GoPay")}</span></button>
-            <button class="method" data-m="VA BCA"><span class="m-name">Virtual Account BCA</span><span class="m-logos">${logo("bca", "BCA")}</span></button>
-            <button class="method" data-m="VA Mandiri"><span class="m-name">Virtual Account Mandiri</span><span class="m-logos">${logo("mandiri", "Mandiri")}</span></button>
-            <button class="method" data-m="Kartu kredit"><span class="m-name">Kartu kredit / debit</span><span class="m-logos">${logo("visa", "Visa", 16)}${logo("mastercard", "Mastercard", 24)}</span></button>
+          <div class="paytabs" role="tablist">
+            <button role="tab" data-tab="qris">${logo("qris", "QRIS", 18)}<span>QRIS</span></button>
+            <button role="tab" data-tab="bca">${logo("bca", "BCA", 16)}<span>Transfer BCA</span></button>
           </div>
-          <div data-pay class="hide" style="text-align:center">
-            <p data-mname-wrap><b data-mname></b></p>
-            <div data-qr-wrap>
-              <div style="margin:2px 0 6px">${logo("qris", "QRIS", 30)}</div>
-              <img class="qr-img" src="${ASSETS}qr-demo.svg" alt="Contoh kode QR, bukan pembayaran asli">
-              <p class="muted" style="font-size:12px;margin:0">NMID: ID1026xxxxxx · Nama Studio</p>
+          <div data-panel="qris" style="text-align:center">
+            <img class="qr-img" src="${ASSETS}qr-demo.svg" alt="Contoh QRIS statis, bukan pembayaran asli">
+            <p class="muted" style="font-size:12px;margin:0 0 4px">NMID: ID1026xxxxxx · Nama Studio</p>
+            <p style="font-size:13px;margin:0">Scan pakai e-wallet atau m-banking apa saja, lalu masukkan nominal <b data-amount></b>.</p>
+          </div>
+          <div data-panel="bca" class="hide">
+            <div class="acct">
+              <small class="muted">Nomor rekening BCA</small>
+              <div class="row between"><b class="acct-no">123 456 7890</b><button class="btn ghost sm" data-copy>Salin</button></div>
+              <small class="muted">Atas nama</small><div><b>Nama Studio</b></div>
             </div>
-            <p class="muted" style="font-size:13px">Di sistem asli, Midtrans memberi tahu sistem otomatis begitu customer bayar. Admin tidak perlu cek mutasi rekening.</p>
-            <button class="btn green block" data-ok>Simulasikan bayar berhasil</button>
+            <p style="font-size:13px;margin:8px 0 0">Transfer tepat <b data-amount></b> supaya mudah dicek.</p>
           </div>
-          <button class="btn ghost block mt" data-close>Batal</button>
+          <label class="upload mt">
+            <span><b>Upload bukti bayar</b><br><small class="muted" data-file>Foto atau screenshot bukti transfer</small></span>
+            <span class="btn ghost sm" aria-hidden="true">Pilih file</span>
+            <input type="file" accept="image/*,application/pdf" class="hide" data-input>
+          </label>
+          <button class="btn rose block mt" data-send>Kirim bukti bayar</button>
+          <p class="hint" style="text-align:center">Admin memverifikasi pembayaran, lalu konfirmasi dikirim lewat WhatsApp.</p>
+          <button class="btn ghost block" data-close>Batal</button>
         </div>
       </div>`;
     document.body.appendChild(m);
     m.addEventListener("click", (e) => { if (e.target === m || e.target.closest("[data-close]")) m.classList.remove("open"); });
-    m.querySelectorAll(".method").forEach((b) => b.addEventListener("click", () => {
-      m.querySelector("[data-list]").classList.add("hide");
-      m.querySelector("[data-pay]").classList.remove("hide");
-      m.querySelector("[data-mname]").textContent = b.dataset.m;
-      const isQris = b.dataset.m === "QRIS";
-      m.querySelector("[data-qr-wrap]").classList.toggle("hide", !isQris);
-      m.querySelector("[data-mname-wrap]").classList.toggle("hide", isQris);
-      m.dataset.method = b.dataset.m;
-    }));
-    m.querySelector("[data-ok]").addEventListener("click", () => {
+    m.querySelectorAll("[data-tab]").forEach((b) => b.addEventListener("click", () => m._tab(b.dataset.tab)));
+    m._tab = (t) => {
+      m.dataset.method = t === "bca" ? "Transfer BCA" : "QRIS";
+      m.querySelectorAll("[data-tab]").forEach((b) => b.setAttribute("aria-selected", b.dataset.tab === t));
+      m.querySelectorAll("[data-panel]").forEach((p) => p.classList.toggle("hide", p.dataset.panel !== t));
+    };
+    m.querySelector("[data-copy]").addEventListener("click", () => toast("Nomor rekening disalin"));
+    m.querySelector("[data-input]").addEventListener("change", (e) => {
+      const f = e.target.files[0];
+      m.querySelector("[data-file]").textContent = f ? f.name : "Foto atau screenshot bukti transfer";
+    });
+    m.querySelector("[data-send]").addEventListener("click", () => {
       m.classList.remove("open");
-      m._onPaid && m._onPaid(m.dataset.method);
+      m._onSent && m._onSent(m.dataset.method);
     });
   }
   m.querySelector("[data-label]").textContent = label;
-  m.querySelector("[data-amount]").textContent = rupiah(amount);
-  m.querySelector("[data-list]").classList.remove("hide");
-  m.querySelector("[data-pay]").classList.add("hide");
-  m._onPaid = onPaid;
+  m.querySelectorAll("[data-amount]").forEach((el) => (el.textContent = rupiah(amount)));
+  m._onSent = onSent;
+  m._tab(tab);
   m.classList.add("open");
-  m.querySelector(".method").focus();
+  m.querySelector(`[data-tab="${tab}"]`).focus();
 }
 
 document.addEventListener("keydown", (e) => {
