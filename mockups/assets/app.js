@@ -66,6 +66,10 @@ function toast(text) {
   t._h = setTimeout(() => t.classList.remove("show"), 2200);
 }
 
+// Asset folder, resolved from this script so it works from mockups/ and mockups/admin/.
+const ASSETS = (document.currentScript && document.currentScript.src) ? new URL(".", document.currentScript.src).href : "assets/";
+const logo = (f, alt, h = 22) => `<img src="${ASSETS}logos/${f}.svg" alt="${alt}" style="height:${h}px;width:auto;display:inline-block">`;
+
 // Midtrans Snap simulation. Calls onPaid(method) when the user taps "bayar berhasil".
 function openSnap(amount, label, onPaid) {
   let m = document.getElementById("snap");
@@ -84,15 +88,19 @@ function openSnap(amount, label, onPaid) {
         <div class="body">
           <div data-list>
             <p class="muted" style="font-size:13px">Simulasi Midtrans Snap. Pilih metode bayar:</p>
-            <button class="method" data-m="QRIS">QRIS <span class="muted">semua e-wallet &amp; m-banking</span></button>
-            <button class="method" data-m="GoPay">GoPay <span class="muted">›</span></button>
-            <button class="method" data-m="VA BCA">Virtual Account BCA <span class="muted">›</span></button>
-            <button class="method" data-m="VA Mandiri">Virtual Account Mandiri <span class="muted">›</span></button>
-            <button class="method" data-m="Kartu kredit">Kartu kredit / debit <span class="muted">›</span></button>
+            <button class="method" data-m="QRIS"><span class="m-name">QRIS<small class="muted">Semua e-wallet &amp; m-banking</small></span><span class="m-logos">${logo("qris", "QRIS")}</span></button>
+            <button class="method" data-m="GoPay"><span class="m-name">GoPay</span><span class="m-logos">${logo("gopay", "GoPay")}</span></button>
+            <button class="method" data-m="VA BCA"><span class="m-name">Virtual Account BCA</span><span class="m-logos">${logo("bca", "BCA")}</span></button>
+            <button class="method" data-m="VA Mandiri"><span class="m-name">Virtual Account Mandiri</span><span class="m-logos">${logo("mandiri", "Mandiri")}</span></button>
+            <button class="method" data-m="Kartu kredit"><span class="m-name">Kartu kredit / debit</span><span class="m-logos">${logo("visa", "Visa", 16)}${logo("mastercard", "Mastercard", 24)}</span></button>
           </div>
           <div data-pay class="hide" style="text-align:center">
-            <p><b data-mname></b></p>
-            <div class="qr" aria-label="Contoh kode QR"></div>
+            <p data-mname-wrap><b data-mname></b></p>
+            <div data-qr-wrap>
+              <div style="margin:2px 0 6px">${logo("qris", "QRIS", 30)}</div>
+              <img class="qr-img" src="${ASSETS}qr-demo.svg" alt="Contoh kode QR, bukan pembayaran asli">
+              <p class="muted" style="font-size:12px;margin:0">NMID: ID1026xxxxxx · Mawar Studio</p>
+            </div>
             <p class="muted" style="font-size:13px">Di sistem asli, Midtrans memberi tahu sistem otomatis begitu customer bayar. Admin tidak perlu cek mutasi rekening.</p>
             <button class="btn green block" data-ok>Simulasikan bayar berhasil</button>
           </div>
@@ -105,6 +113,9 @@ function openSnap(amount, label, onPaid) {
       m.querySelector("[data-list]").classList.add("hide");
       m.querySelector("[data-pay]").classList.remove("hide");
       m.querySelector("[data-mname]").textContent = b.dataset.m;
+      const isQris = b.dataset.m === "QRIS";
+      m.querySelector("[data-qr-wrap]").classList.toggle("hide", !isQris);
+      m.querySelector("[data-mname-wrap]").classList.toggle("hide", isQris);
       m.dataset.method = b.dataset.m;
     }));
     m.querySelector("[data-ok]").addEventListener("click", () => {
