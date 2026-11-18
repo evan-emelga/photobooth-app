@@ -221,6 +221,68 @@
       .gal-copy { gap: 12px; }
     }
 
+
+    /* ===== Festive layer ===== */
+    .stage { position: relative; isolation: isolate; }
+    .stage > .wrap, .stage > .track { position: relative; z-index: 1; }
+    .ghost-word { position: absolute; z-index: 0; left: 50%; top: 50%; white-space: nowrap; pointer-events: none; user-select: none;
+      font-weight: 900; font-stretch: 62%; text-transform: uppercase; line-height: .8; font-size: clamp(9rem, 30vw, 26rem); color: transparent;
+      -webkit-text-stroke: 2px var(--gw, var(--green)); opacity: .16; transform: translate(calc(-50% + (.5 - var(--p)) * 40vw), -50%) rotate(-6deg); }
+    #paket .ghost-word { --gw: var(--yellow); opacity: .22; top: 78%; }
+    #saring .ghost-word { --gw: var(--red); opacity: .1; }
+    #bayar .ghost-word { --gw: var(--ink); opacity: .1; }
+    #galeri .ghost-word { --gw: #ff8a7a; opacity: .14; }
+
+    .reel { position: fixed; z-index: 40; left: 0; right: 0; top: 0; height: 12px; background: var(--ink); pointer-events: none;
+      transform: scaleX(var(--sp, 0)); transform-origin: left; }
+    .reel::after { content: ""; position: absolute; inset: 3px 0; background: radial-gradient(circle, var(--yellow) 2.2px, transparent 2.8px) 0 50% / 14px 6px repeat-x; }
+    html:not(.js) .reel { display: none; }
+
+    .burst { position: absolute; z-index: 0; left: 50%; top: 40%; width: 150%; aspect-ratio: 1; border-radius: 50%; pointer-events: none;
+      background: repeating-conic-gradient(var(--yellow) 0 7.5deg, transparent 7.5deg 15deg);
+      -webkit-mask: radial-gradient(circle, #000 25%, transparent 68%); mask: radial-gradient(circle, #000 25%, transparent 68%);
+      transform: translate(-50%, -50%) rotate(calc(var(--p) * 220deg)) scale(calc(.2 + var(--a) * .8)); opacity: calc(.2 + var(--a) * .8); }
+    .print.p2, .print.p3 { z-index: 1; }
+    .print.p2 { transform: translateY(calc((1 - var(--a)) * 38%)) translateX(calc(var(--a) * -42%)) rotate(calc(var(--a) * -16deg)) scale(.86); }
+    .print.p3 { transform: translateY(calc((1 - var(--a)) * 38%)) translateX(calc(var(--a) * 40%)) rotate(calc(var(--a) * 13deg)) scale(.86); }
+    .print.main { z-index: 2; }
+    .env { z-index: 3; }
+    .sticker { position: absolute; z-index: 4; right: -4%; top: 4%; width: clamp(96px, 11vw, 132px); aspect-ratio: 1; border-radius: 50%; background: var(--red); color: #fff;
+      display: grid; place-items: center; text-align: center; font-weight: 900; font-stretch: 62%; text-transform: uppercase; font-size: clamp(1rem, 1.6vw, 1.35rem); line-height: .9;
+      box-shadow: 0 3px 6px rgba(18,21,18,.2), 0 12px 24px rgba(18,21,18,.2);
+      transform: rotate(calc(-14deg + var(--p) * 300deg)) scale(calc(var(--a) * 1)); }
+    .sticker::before { content: ""; position: absolute; inset: 6px; border-radius: 50%; border: 2px dashed rgba(255,255,255,.75); }
+    .flash { position: fixed; inset: 0; z-index: 60; background: #fff; pointer-events: none; opacity: 0; }
+    .flash.go { animation: flash .55s ease-out; }
+    @keyframes flash { 0% { opacity: 0; } 8% { opacity: .95; } 100% { opacity: 0; } }
+
+    .tapes { position: relative; z-index: 6; height: 0; }
+    .tape { position: absolute; left: -10vw; width: 120vw; overflow: hidden; padding: 14px 0; border-block: 3px solid var(--ink);
+      font-weight: 900; font-stretch: 62%; text-transform: uppercase; font-size: clamp(1.6rem, 3.4vw, 2.6rem); line-height: 1; white-space: nowrap; }
+    .tape > div { display: inline-flex; gap: 28px; transform: translateX(calc(var(--t, 0) * 1px)); }
+    .tape b { display: inline-flex; align-items: center; gap: 28px; }
+    .tape b::after { content: ""; width: .5em; height: .5em; background: currentColor; transform: rotate(45deg); }
+    .tape.a { top: -46px; background: var(--yellow); color: var(--ink); transform: rotate(-3deg); }
+    .tape.b { top: -40px; background: var(--red); color: #fff; transform: rotate(2.4deg); }
+    .tape.b > div { transform: translateX(calc(var(--t, 0) * -1px - 400px)); }
+
+    .js .pack { transition: box-shadow .2s; }
+    .pack:hover { box-shadow: 0 4px 8px rgba(0,0,0,.18), 0 18px 36px rgba(0,0,0,.25); }
+    .btn:hover { transform: rotate(-2deg) scale(1.04); }
+    .sieve-pop { position: absolute; z-index: 5; right: 6%; top: 6%; background: var(--yellow); border: 3px solid var(--ink); padding: 8px 14px; font-weight: 900; font-stretch: 62%;
+      font-size: 1.8rem; text-transform: uppercase; transform: rotate(6deg); line-height: 1; }
+    .js .sieve-pop { opacity: 0; transform: rotate(6deg) scale(.3); transition: transform .45s var(--ease), opacity .2s; }
+    .js #saring.on3 .sieve-pop { opacity: 1; transform: rotate(6deg) scale(1); }
+    .sheet { position: relative; }
+    canvas.confetti { position: fixed; inset: 0; z-index: 55; pointer-events: none; }
+    @media (max-width: 860px) {
+      .tape { font-size: 1.4rem; padding: 10px 0; }
+      .sticker { right: -2%; top: 0; width: 84px; font-size: .95rem; }
+      .sieve-pop { font-size: 1.2rem; top: -14px; right: 8px; }
+      .ghost-word { font-size: 42vw; }
+      .track { gap: 34px; }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .scroll-cue svg { animation: none; }
       * { transition-duration: .01ms !important; }
@@ -228,11 +290,12 @@
   </style>
 </head>
 <body>
+  <div class="reel" aria-hidden="true"></div><div class="flash" aria-hidden="true"></div>
   <div class="mock-bar"><span>PhotoStudio System Proposal · versi animasi scroll · semua data contoh</span><a href="index.html">Kembali ke halaman awal</a></div>
 
   <main>
     <section class="scene" id="hero" data-scene>
-      <div class="stage">
+      <div class="stage"><span class="ghost-word" aria-hidden="true">CEKREK!</span>
         <div class="wrap hero-grid">
           <div class="hero-copy">
             <h1>Booking studio foto. <span>Tanpa bolak-balik DM.</span></h1>
@@ -244,10 +307,14 @@
             <p class="scroll-cue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 4v15M5 13l7 7 7-7"/></svg>Scroll untuk lihat alurnya</p>
           </div>
           <div class="env-stage" aria-hidden="true">
-            <figure class="print">
+            <div class="burst"></div>
+            <figure class="print p2"><img src="https://images.unsplash.com/photo-1551728339-499b333c5c43?w=600&h=760&fit=crop&crop=faces,entropy&q=65&auto=format" alt=""><figcaption><span>Graduation</span><span>BK-2598</span></figcaption></figure>
+            <figure class="print p3"><img src="https://images.unsplash.com/photo-1760328249117-18488466e34c?w=600&h=760&fit=crop&crop=faces,entropy&q=65&auto=format" alt=""><figcaption><span>Family</span><span>BK-2604</span></figcaption></figure>
+            <figure class="print main">
               <img src="https://images.unsplash.com/photo-1554384032-56ff486b6cd4?w=900&h=1100&fit=crop&crop=faces,entropy&q=72&auto=format" alt="">
               <figcaption><span>Prewedding</span><span>BK-2611</span></figcaption>
             </figure>
+            <div class="sticker"><span>Booking<br>online!</span></div>
             <div class="env">
               <div class="env-title">Nama Studio<br>Cuci cetak</div>
               <div class="env-form">
@@ -261,8 +328,10 @@
       </div>
     </section>
 
+    <div class="tapes" aria-hidden="true"><div class="tape a"><div><b>Prewedding</b><b>Graduation</b><b>Family</b><b>Sewa studio</b><b>MUA</b><b>Stylist</b><b>Galeri online</b><b>Prewedding</b><b>Graduation</b><b>Family</b><b>Sewa studio</b><b>MUA</b><b>Stylist</b><b>Galeri online</b><b>Prewedding</b><b>Graduation</b><b>Family</b><b>Sewa studio</b><b>MUA</b><b>Stylist</b><b>Galeri online</b></div></div><div class="tape b"><div><b>Prewedding</b><b>Graduation</b><b>Family</b><b>Sewa studio</b><b>MUA</b><b>Stylist</b><b>Galeri online</b><b>Prewedding</b><b>Graduation</b><b>Family</b><b>Sewa studio</b><b>MUA</b><b>Stylist</b><b>Galeri online</b><b>Prewedding</b><b>Graduation</b><b>Family</b><b>Sewa studio</b><b>MUA</b><b>Stylist</b><b>Galeri online</b></div></div></div>
+
     <section class="scene" id="paket" data-scene data-track>
-      <div class="stage">
+      <div class="stage"><span class="ghost-word" aria-hidden="true">PILIH SESI</span>
         <div class="wrap">
           <h2>Empat cara datang ke studio</h2>
           <p class="lead" style="margin-top:12px">Customer cukup pilih jenis sesi. Ruangan dan tim diatur sistem.</p>
@@ -296,7 +365,7 @@
     </section>
 
     <section class="scene" id="saring" data-scene data-steps="4" data-step="3">
-      <div class="stage">
+      <div class="stage"><span class="ghost-word" aria-hidden="true">PAS!</span>
         <div class="wrap sieve">
           <div>
             <h2>Jam yang tampil pasti bisa</h2>
@@ -313,6 +382,7 @@
             </div>
           </div>
           <div class="sheet" aria-label="Contoh jadwal satu hari">
+            <div class="sieve-pop" aria-hidden="true">Ketemu!</div>
             <div class="sheet-head"><span>Sabtu 28.11</span><span>Jadwal contoh</span></div>
             <div class="grid" id="sieve-grid"></div>
             <div class="legend"><span><i class="lx"></i>Tidak bisa</span><span><i class="lo"></i>Jam mulai yang tampil</span></div>
@@ -322,7 +392,7 @@
     </section>
 
     <section class="scene" id="bayar" data-scene data-flag=".55">
-      <div class="stage">
+      <div class="stage"><span class="ghost-word" aria-hidden="true">LUNAS!</span>
         <div class="wrap pay">
           <div class="pay-copy">
             <h2>Bayar DP, admin cek, beres</h2>
@@ -349,7 +419,7 @@
     </section>
 
     <section class="scene" id="galeri" data-scene>
-      <div class="stage">
+      <div class="stage"><span class="ghost-word" aria-hidden="true">JADI!</span>
         <div class="wrap gal">
           <div class="gal-copy">
             <h2>Foto jadi, langsung di galeri</h2>
@@ -361,7 +431,7 @@
       </div>
     </section>
 
-    <section class="close">
+    <section class="close" id="close">
       <div class="wrap close-grid">
         <div>
           <h2>Coba booking dari awal</h2>
@@ -425,10 +495,49 @@
       const scenes = [...document.querySelectorAll("[data-scene]")];
       const sieve = document.getElementById("saring");
       sieve.dataset.step = "0";
+      // Confetti: paper punches and film chips in the lab colours.
+      const cv = Object.assign(document.createElement("canvas"), { className: "confetti" });
+      document.body.append(cv);
+      const cx = cv.getContext("2d"), bits = [], COLORS = ["#d3261b", "#ffd100", "#0b7a3b", "#121512", "#ffffff"];
+      let running = false;
+      const fit = () => { cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio; cx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0); };
+      fit();
+      const draw = () => {
+        cx.clearRect(0, 0, innerWidth, innerHeight);
+        for (let i = bits.length - 1; i >= 0; i--) {
+          const b = bits[i];
+          b.vy += .32; b.vx *= .985; b.vy *= .985; b.x += b.vx; b.y += b.vy; b.r += b.vr; b.life--;
+          if (b.life <= 0 || b.y > innerHeight + 40) { bits.splice(i, 1); continue; }
+          cx.save(); cx.translate(b.x, b.y); cx.rotate(b.r); cx.scale(1, Math.cos(b.life * .18)); cx.fillStyle = b.c;
+          if (b.round) { cx.beginPath(); cx.arc(0, 0, b.s / 2, 0, 7); cx.fill(); } else cx.fillRect(-b.s / 2, -b.s / 4, b.s, b.s / 2);
+          cx.restore();
+        }
+        if (bits.length) requestAnimationFrame(draw); else { running = false; cx.clearRect(0, 0, innerWidth, innerHeight); }
+      };
+      const confetti = (x, y, n = 90, spread = 1) => {
+        for (let i = 0; i < n; i++) {
+          const a = -Math.PI / 2 + (Math.random() - .5) * 2.2 * spread, v = 7 + Math.random() * 10;
+          bits.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: Math.random() * 6, vr: (Math.random() - .5) * .4,
+            s: 7 + Math.random() * 9, c: COLORS[i % COLORS.length], round: Math.random() < .35, life: 140 + Math.random() * 60 });
+        }
+        if (!running) { running = true; requestAnimationFrame(draw); }
+      };
+      const at = (el) => { const r = el.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; };
+      const flashEl = document.querySelector(".flash");
+      const flash = () => { flashEl.classList.remove("go"); void flashEl.offsetWidth; flashEl.classList.add("go"); };
+      // Fire each effect once per pass, when the scene crosses its point going down.
+      const fired = {};
+      const once = (key, hit, fn) => { if (hit && !fired[key]) { fired[key] = true; fn(); } else if (!hit) fired[key] = false; };
+      const tapes = [...document.querySelectorAll(".tape")];
+      const packs = [...document.querySelectorAll(".pack")];
+      const closeEl = document.getElementById("close");
       let queued = false;
       const tick = () => {
         queued = false;
         const vh = innerHeight;
+        const root = document.documentElement;
+        root.style.setProperty("--sp", (scrollY / (root.scrollHeight - vh)).toFixed(4));
+        for (const t of tapes) t.style.setProperty("--t", (t.getBoundingClientRect().top - vh) * .6);
         for (const s of scenes) {
           const r = s.getBoundingClientRect();
           const span = s.offsetHeight - vh;
@@ -438,18 +547,29 @@
           if (s.dataset.track !== undefined) {
             const t = s.querySelector(".track");
             t.style.transform = `translate3d(${-(t.scrollWidth - innerWidth) * p}px,0,0)`;
+            for (const k of packs) {
+              const r2 = k.getBoundingClientRect(), d = (r2.left + r2.width / 2 - innerWidth / 2) / innerWidth;
+              const m = innerWidth < 860 ? .45 : 1;
+              k.style.transform = `translateY(${Math.abs(d) * 60 * m}px) rotate(${d * 10 * m}deg)`;
+            }
           }
+          if (s.id === "hero") once("flash", p > .5, flash);
+          if (s.id === "bayar") once("stamp", p > +s.dataset.flag, () => setTimeout(() => confetti(...at(s.querySelector(".stamp")), 110), 260));
+          if (s.id === "galeri") once("gal", p > .92, () => { flash(); confetti(innerWidth / 2, innerHeight * .85, 70, 1.3); });
           if (s.dataset.flag) s.classList.toggle("on", p > +s.dataset.flag);
           if (s === sieve) {
             const step = p < .18 ? 0 : p < .42 ? 1 : p < .66 ? 2 : 3;
             s.dataset.step = step;
             [1, 2, 3].forEach((n) => s.classList.toggle("on" + n, step >= n));
+            once("sieve", step === 3, () => confetti(...at(s.querySelector(".sheet")), 120));
           }
         }
+        const cr = closeEl.getBoundingClientRect();
+        once("close", cr.top < vh * .55, () => { confetti(innerWidth * .1, vh, 80, .7); confetti(innerWidth * .9, vh, 80, .7); });
       };
       const ask = () => { if (!queued) { queued = true; requestAnimationFrame(tick); } };
       addEventListener("scroll", ask, { passive: true });
-      addEventListener("resize", ask);
+      addEventListener("resize", () => { fit(); ask(); });
       tick();
     }
   </script>
