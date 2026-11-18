@@ -6,283 +6,235 @@
   <title>Nama Studio · versi animasi scroll</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=Courier+Prime:wght@400;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap">
   <!--
-  THESIS: one scroll = one booking. The page walks the customer from the print envelope to the finished gallery, and each scene is driven by scroll position, not by a timer.
-  WORLD: the default "Amplop Cuci Cetak" theme of the mockups (lab green, order-form rules, red ink, yellow price box, stamped mono numbers, condensed Archivo).
-  FOCAL MOMENT: the slot sieve. Scrolling strikes out the room's other bookings, then busy freelancer hours, until only start times that can really be served remain.
-  SUPPORT: print slides out of the envelope; packages run sideways; the DP is stamped LUNAS; gallery prints develop out of the darkroom red.
+  THESIS: one scroll = one booking. The page walks the customer from the envelope of prints to the finished gallery; each scene is driven by scroll position.
+  WORLD: the "Klasik" theme of the mockups: cream paper, warm ink, rose accent, Fraunces serif headings, Plus Jakarta Sans body, soft rounded cards.
+  FOCAL MOMENT: the slot sieve. Scrolling crosses out the room's other bookings, then busy team hours, until only start times that can really be served remain.
+  SUPPORT (kept quiet on purpose): prints rise from the envelope, packages glide sideways, the DP gets a "Lunas" stamp, gallery prints develop. One small confetti moment when the free times are found.
   FALLBACK: without JS or with reduced motion, every scene shows its final state as a normal page.
   -->
   <style>
     :root {
-      --paper: #fbfbf7; --ink: #121512; --muted: #46524a; --rule: #8c978f; --line: #c9d2ca;
-      --green: #0b7a3b; --green-deep: #0a5a2c; --red: #d3261b; --yellow: #ffd100;
-      --sans: "Archivo", system-ui, sans-serif; --mono: "Courier Prime", ui-monospace, monospace;
+      --bg: #faf7f2; --surface: #fff; --ink: #1f1b18; --muted: #6f655d; --line: #e7dfd5; --sand: #efe7dc;
+      --rose: #a8434f; --rose-deep: #8f3540; --rose-soft: #f6e6e7; --green: #2f7d5b; --green-soft: #e3f1ea; --dark: #201b18;
+      --display: "Fraunces", Georgia, serif; --body: "Plus Jakarta Sans", system-ui, sans-serif;
+      --radius: 14px; --shadow: 0 1px 2px rgba(31,27,24,.05), 0 8px 24px rgba(31,27,24,.08);
       --ease: cubic-bezier(.16, 1, .3, 1);
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; }
-    body { background: var(--paper); color: var(--ink); font: 17px/1.5 var(--sans); }
+    body { background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body); }
     img { display: block; max-width: 100%; }
     a { color: inherit; }
-    h1, h2, h3 { margin: 0; text-transform: uppercase; font-weight: 850; line-height: .92; letter-spacing: -.01em; text-wrap: balance; }
-    h1 { font-stretch: 62%; font-size: clamp(3.2rem, 9vw, 6rem); }
-    h2 { font-stretch: 66%; font-size: clamp(2.4rem, 6vw, 4.6rem); }
-    h3 { font-stretch: 80%; font-size: 1.35rem; line-height: 1; }
+    h1, h2, h3 { margin: 0; font-family: var(--display); font-weight: 600; line-height: 1.05; letter-spacing: -.02em; text-wrap: balance; }
+    h1 { font-size: clamp(2.8rem, 6.4vw, 5.2rem); }
+    h2 { font-size: clamp(2.2rem, 4.6vw, 3.8rem); }
+    h3 { font-size: 1.35rem; line-height: 1.15; }
+    h1 em, h2 em { font-style: italic; font-weight: 400; color: var(--rose); }
     p { margin: 0; }
-    .mono { font-family: var(--mono); }
-    .lead { font-size: 1.15rem; max-width: 34ch; color: var(--muted); }
+    .num { font-variant-numeric: tabular-nums; font-weight: 600; }
+    .lead { font-size: 1.12rem; max-width: 36ch; color: var(--muted); }
 
-    .mock-bar { background: var(--ink); color: #eef2ee; font-size: 13px; padding: 8px 16px; display: flex; gap: 16px; justify-content: space-between; flex-wrap: wrap; position: relative; z-index: 5; }
-    .mock-bar a { color: #eef2ee; opacity: .85; }
+    .mock-bar { background: var(--ink); color: #f3ece4; font-size: 13px; padding: 8px 16px; display: flex; gap: 16px; justify-content: space-between; flex-wrap: wrap; position: relative; z-index: 5; }
+    .mock-bar a { color: #f3ece4; opacity: .85; }
 
-    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border: 2px solid var(--ink); border-radius: 3px; background: var(--ink); color: #fff;
-      font: 800 1rem/1 var(--sans); font-stretch: 85%; text-transform: uppercase; letter-spacing: .03em; text-decoration: none; transition: background .15s, color .15s, transform .15s var(--ease); }
-    .btn svg { width: 18px; height: 18px; transition: transform .25s var(--ease); }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 24px; border: 1px solid var(--ink); border-radius: 999px; background: var(--ink); color: #fff;
+      font: 600 .98rem/1 var(--body); text-decoration: none; transition: background .2s, color .2s, border-color .2s; }
+    .btn svg { width: 17px; height: 17px; transition: transform .25s var(--ease); }
     .btn:hover svg { transform: translateX(4px); }
-    .btn:active { transform: translateY(1px); }
-    .btn.red { background: var(--red); border-color: var(--red); }
-    .btn.red:hover { background: #b51e14; border-color: #b51e14; }
+    .btn.rose { background: var(--rose); border-color: var(--rose); }
+    .btn.rose:hover { background: var(--rose-deep); border-color: var(--rose-deep); }
     .btn.ghost { background: transparent; color: var(--ink); }
     .btn.ghost:hover { background: var(--ink); color: #fff; }
-    .btn:focus-visible, a:focus-visible { outline: 3px solid var(--yellow); outline-offset: 3px; }
+    .btn:focus-visible, a:focus-visible { outline: 3px solid var(--rose); outline-offset: 3px; }
     .row { display: flex; gap: 12px; flex-wrap: wrap; }
 
-    /* Scene engine: each scene is tall, its stage sticks. --p (0..1) is the scroll progress, set by JS. Default 1 = final state. */
+    /* Scene engine: each scene is tall, its stage sticks. --p (0..1) is scroll progress set by JS. Default 1 = final state. */
     .scene { --p: 1; position: relative; }
-    .stage { min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; overflow: hidden; }
+    .stage { min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; overflow: hidden; position: relative; }
     .js .scene { height: var(--h, 260vh); }
     .js .stage { position: sticky; top: 0; height: 100svh; }
     .wrap { width: min(1180px, 100% - 40px); margin: 0 auto; }
+    .progress { position: fixed; z-index: 40; left: 0; right: 0; top: 0; height: 3px; background: var(--rose); transform: scaleX(var(--sp, 0)); transform-origin: left; pointer-events: none; }
+    html:not(.js) .progress { display: none; }
 
     /* 1. Envelope hero */
     #hero { --h: 230vh; }
-    #hero .stage { background: var(--paper); }
-    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 48px; align-items: center; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; }
     .hero-copy { display: grid; gap: 24px; }
-    .hero-copy h1 span { color: var(--green); }
+    .brand { display: flex; align-items: center; gap: 10px; font: 600 1.25rem/1 var(--display); }
+    .brand i { width: 24px; height: 24px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #d77c86, var(--rose)); }
     .env-stage { --a: clamp(0, calc(var(--p) / .55), 1); --b: clamp(0, calc((var(--p) - .55) / .45), 1);
-      position: relative; height: min(76svh, 680px); aspect-ratio: 4 / 5; justify-self: center; clip-path: inset(-40% -40% 0 -40%); }
-    .print { position: absolute; left: 9%; right: 9%; top: 2%; bottom: 20%; background: #fff; padding: 10px 10px 44px; z-index: 1;
-      box-shadow: 0 2px 4px rgba(18,21,18,.12), 0 18px 40px rgba(18,21,18,.18);
-      transform: translateY(calc((1 - var(--a)) * 38%)) rotate(calc(var(--a) * -4deg + var(--b) * 2deg)) scale(calc(1 + var(--b) * .06)); }
-    .print img { width: 100%; height: 100%; object-fit: cover; }
-    .print figcaption { position: absolute; left: 12px; right: 12px; bottom: 12px; display: flex; justify-content: space-between; font: 700 12px/1 var(--mono); text-transform: uppercase; color: var(--muted); }
-    .env { position: absolute; left: 0; right: 0; bottom: 0; height: 58%; z-index: 2; background: var(--green); color: #fff; padding: 22px 22px 18px;
-      display: grid; align-content: space-between; border-top: 6px solid var(--yellow);
-      transform: translateY(calc(var(--b) * 105%)); }
-    .env::before { content: ""; position: absolute; left: 0; right: 0; top: -20px; height: 14px; background: radial-gradient(circle, var(--paper) 3px, transparent 3.6px) 0 0 / 16px 14px repeat-x; }
-    .env-title { font-weight: 900; font-stretch: 62%; font-size: clamp(1.8rem, 3.4vw, 2.6rem); text-transform: uppercase; line-height: .9; }
-    .env-form { display: grid; gap: 8px; font: 700 13px/1.2 var(--mono); text-transform: uppercase; }
+      position: relative; height: min(74svh, 660px); aspect-ratio: 4 / 5; justify-self: center; clip-path: inset(-40% -40% 0 -40%); }
+    .print { position: absolute; left: 10%; right: 10%; top: 3%; bottom: 20%; background: #fff; padding: 10px 10px 40px; border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(31,27,24,.08), 0 16px 36px rgba(31,27,24,.14);
+      transform: translateY(calc((1 - var(--a)) * 38%)) rotate(calc(var(--a) * -3deg + var(--b) * 1.5deg)); }
+    .print img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
+    .print figcaption { position: absolute; left: 12px; right: 12px; bottom: 11px; display: flex; justify-content: space-between; font: italic 400 .9rem/1 var(--display); color: var(--muted); }
+    .print.p2 { transform: translateY(calc((1 - var(--a)) * 38%)) translateX(calc(var(--a) * -24%)) rotate(calc(var(--a) * -9deg)) scale(.9); }
+    .print.p3 { transform: translateY(calc((1 - var(--a)) * 38%)) translateX(calc(var(--a) * 22%)) rotate(calc(var(--a) * 7deg)) scale(.9); }
+    .print.main { z-index: 2; }
+    .env { position: absolute; left: 0; right: 0; bottom: 0; height: 56%; z-index: 3; background: var(--sand); border: 1px solid #ddd1c2; border-radius: var(--radius) var(--radius) 0 0;
+      padding: 26px 26px 20px; display: grid; align-content: space-between; transform: translateY(calc(var(--b) * 105%)); }
+    .env::before { content: ""; position: absolute; left: -1px; right: -1px; top: -1px; height: 46%; border-radius: var(--radius) var(--radius) 0 0;
+      background: linear-gradient(to bottom right, transparent 49.6%, #e4d9cb 50%) left / 50.2% 100% no-repeat, linear-gradient(to bottom left, transparent 49.6%, #e4d9cb 50%) right / 50.2% 100% no-repeat; opacity: .7; }
+    .seal { position: absolute; z-index: 4; left: 50%; top: 32%; width: 64px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #c25f6b, var(--rose) 60%, var(--rose-deep));
+      color: #f6e6e7; display: grid; place-items: center; font: italic 600 1.35rem/1 var(--display); transform: translate(-50%, -50%); box-shadow: 0 2px 6px rgba(31,27,24,.25); }
+    .env-title { position: relative; font: 600 clamp(1.5rem, 2.6vw, 2rem)/1.05 var(--display); }
+    .env-title em { display: block; font-weight: 400; font-size: .7em; color: var(--muted); }
+    .env-form { position: relative; display: grid; gap: 8px; font-size: .82rem; color: var(--muted); }
     .env-form div { display: flex; gap: 8px; align-items: end; }
-    .env-form i { flex: 1; border-bottom: 1.5px solid rgba(255,255,255,.7); font-style: normal; padding-bottom: 2px; }
-    .env-form .box { width: 14px; height: 14px; border: 1.5px solid #fff; display: inline-block; vertical-align: -2px; margin-right: 4px; }
-    .env-form .box.x { background: var(--yellow); border-color: var(--yellow); }
-    .scroll-cue { display: flex; align-items: center; gap: 10px; font: 700 13px/1 var(--mono); text-transform: uppercase; color: var(--muted); opacity: calc(1 - var(--p) * 3); }
-    .scroll-cue svg { width: 18px; height: 18px; animation: cue 1.6s var(--ease) infinite; }
+    .env-form i { flex: 1; border-bottom: 1px solid #cdbfae; font-style: normal; color: var(--ink); font-weight: 600; padding-bottom: 2px; }
+    .scroll-cue { display: flex; align-items: center; gap: 10px; font-size: .85rem; color: var(--muted); opacity: calc(1 - var(--p) * 3); }
+    .scroll-cue svg { width: 16px; height: 16px; animation: cue 1.8s var(--ease) infinite; }
     @keyframes cue { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(4px); } }
     html:not(.js) .scroll-cue { display: none; }
 
-    /* 2. Packages run sideways */
+    /* 2. Packages glide sideways */
     #paket { --h: 340vh; }
-    #paket .stage { background: var(--green-deep); color: #fff; align-content: center; gap: 36px; }
-    #paket h2 { color: #fff; }
-    #paket .lead { color: #cfe5d6; }
-    .track { display: flex; gap: 24px; padding: 0 max(20px, calc((100vw - 1180px) / 2)); will-change: transform; }
+    #paket .stage { background: var(--dark); color: #f3ece4; align-content: center; gap: 36px; }
+    #paket .lead { color: #c9bdb0; }
+    #paket h2 em { color: #e8a3ab; }
+    .track { display: flex; gap: 28px; padding: 0 max(20px, calc((100vw - 1180px) / 2)); will-change: transform; }
     html:not(.js) .track { overflow-x: auto; padding-bottom: 16px; }
-    .pack { flex: 0 0 clamp(260px, 30vw, 360px); background: var(--paper); color: var(--ink); border: 2px solid var(--ink); display: grid; grid-template-rows: auto 1fr; }
-    .pack img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; border-bottom: 2px solid var(--ink); }
-    .pack-body { padding: 18px; display: grid; gap: 10px; align-content: start; }
-    .pack-meta { display: flex; justify-content: space-between; font: 700 13px/1 var(--mono); text-transform: uppercase; color: var(--muted); border-top: 1.5px solid var(--line); padding-top: 10px; }
-    .pack-meta b { color: var(--red); }
-    .pack.end { background: var(--yellow); display: grid; align-content: center; padding: 28px; gap: 18px; }
-    .pack.end h3 { font-size: 2rem; }
+    .pack { flex: 0 0 clamp(260px, 29vw, 350px); background: var(--surface); color: var(--ink); border-radius: var(--radius); overflow: hidden; box-shadow: 0 12px 32px rgba(0,0,0,.28); }
+    .pack img { aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+    .pack-body { padding: 20px; display: grid; gap: 8px; }
+    .pack-body p { color: var(--muted); font-size: .95rem; }
+    .pack-meta { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding-top: 12px; margin-top: 4px; font-size: .9rem; color: var(--muted); }
+    .pack-meta b { color: var(--rose); font-weight: 600; }
+    .pack.end { background: var(--rose-soft); padding: 28px; display: grid; align-content: center; gap: 14px; }
+    .pack.end h3 { font-size: 1.8rem; }
+    .pack.end .pack-meta { border-color: #e8c9cc; }
 
     /* 3. Slot sieve (focal moment) */
     #saring { --h: 440vh; }
-    #saring .stage { background: var(--paper); }
-    .sieve { display: grid; grid-template-columns: .8fr 1.2fr; gap: 48px; align-items: center; }
-    .order { display: grid; gap: 6px; font: 700 14px/1.3 var(--mono); text-transform: uppercase; margin-top: 18px; }
-    .order span { display: flex; align-items: center; gap: 8px; }
-    .order .box { width: 15px; height: 15px; border: 1.5px solid var(--red); background: var(--red); flex: none; }
-    .steps { position: relative; margin-top: 28px; min-height: 8.5em; }
-    .step { display: grid; gap: 6px; padding-left: 18px; border-left: 1.5px solid var(--ink); margin-bottom: 18px; }
-    .step b { font-size: 1.2rem; font-stretch: 85%; font-weight: 800; }
+    .sieve { display: grid; grid-template-columns: .8fr 1.2fr; gap: 56px; align-items: center; }
+    .order { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 18px; }
+    .order span { background: var(--rose-soft); color: var(--rose-deep); border-radius: 999px; padding: 5px 12px; font-size: .85rem; font-weight: 600; }
+    .steps { position: relative; margin-top: 28px; min-height: 8em; }
+    .step { display: grid; gap: 4px; padding-left: 18px; border-left: 2px solid var(--rose); margin-bottom: 18px; }
+    .step b { font: 600 1.25rem/1.2 var(--display); }
     .step p { color: var(--muted); max-width: 40ch; }
-    .js .step { position: absolute; inset: 0 0 auto 0; opacity: 0; transform: translateY(14px); filter: blur(4px); transition: opacity .45s var(--ease), transform .45s var(--ease), filter .45s var(--ease); }
+    .js .step { position: absolute; inset: 0 0 auto 0; opacity: 0; transform: translateY(12px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
     .js #saring[data-step="0"] .step[data-n="0"], .js #saring[data-step="1"] .step[data-n="1"],
-    .js #saring[data-step="2"] .step[data-n="2"], .js #saring[data-step="3"] .step[data-n="3"] { opacity: 1; transform: none; filter: none; }
+    .js #saring[data-step="2"] .step[data-n="2"], .js #saring[data-step="3"] .step[data-n="3"] { opacity: 1; transform: none; }
 
-    .sheet { border: 2px solid var(--ink); background: #fff; padding: 18px; }
-    .sheet-head { display: flex; justify-content: space-between; font: 700 13px/1 var(--mono); text-transform: uppercase; margin-bottom: 14px; }
-    .grid { display: grid; grid-template-columns: 7.5em repeat(12, 1fr); gap: 3px; align-items: stretch; }
-    .grid .lbl { font-weight: 800; font-stretch: 85%; font-size: .9rem; text-transform: uppercase; display: flex; align-items: center; }
-    .grid .hr { font: 700 11px/1 var(--mono); color: var(--muted); text-align: center; padding-bottom: 4px; }
-    .c { position: relative; height: 40px; border: 1.5px solid var(--line); background: #fff; }
+    .sheet { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; box-shadow: var(--shadow); }
+    .sheet-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 14px; }
+    .sheet-head b { font: 600 1.15rem/1 var(--display); }
+    .sheet-head span { font-size: .8rem; color: var(--muted); }
+    .grid { display: grid; grid-template-columns: 7.5em repeat(12, 1fr); gap: 4px; align-items: stretch; }
+    .grid .lbl { font-weight: 600; font-size: .88rem; display: flex; align-items: center; }
+    .grid .hr { font-size: .72rem; color: var(--muted); text-align: center; padding-bottom: 4px; font-variant-numeric: tabular-nums; }
+    .c { position: relative; height: 38px; border-radius: 6px; background: #f6f2ec; }
     .c.x { overflow: hidden; }
-    .c.x::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, var(--red) 0 2px, transparent 2px 7px), rgba(211,38,27,.08);
-      clip-path: inset(0); transition: clip-path .5s var(--ease) calc(var(--i, 0) * 70ms); }
-    .gap { grid-column: 1 / -1; height: 10px; border-bottom: 1.5px dashed var(--rule); margin-bottom: 8px; }
-    .c.ok, .c.dim { border-color: var(--rule); }
-    .c.ok { background: var(--paper); }
-    .c.ok::before { content: ""; position: absolute; inset: 0; background: var(--yellow); transform-origin: left; transition: transform .55s var(--ease) calc(var(--i, 0) * 60ms); }
-    .c.dim { background: repeating-linear-gradient(-45deg, #eef1ee 0 2px, transparent 2px 7px); }
-    .tag { position: absolute; z-index: 1; left: 4px; top: 50%; transform: translateY(-50%) rotate(-4deg); font: 700 12px/1 var(--mono); padding: 3px 5px; border: 2px solid var(--ink); background: #fff; white-space: nowrap;
-      transition: transform .35s var(--ease) .35s, opacity .2s .35s; }
+    .c.x::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(-45deg, rgba(168,67,79,.55) 0 1.5px, transparent 1.5px 6px), var(--rose-soft);
+      clip-path: inset(0); transition: clip-path .6s var(--ease) calc(var(--i, 0) * 80ms); }
+    .gap { grid-column: 1 / -1; height: 10px; border-bottom: 1px dashed var(--line); margin-bottom: 8px; }
+    .c.dim { background: #f6f2ec; opacity: .55; }
+    .c.ok::before { content: ""; position: absolute; inset: 0; border-radius: 6px; background: var(--green-soft); box-shadow: inset 0 0 0 1.5px var(--green); transform-origin: left; transition: transform .6s var(--ease) calc(var(--i, 0) * 60ms); }
+    .tag { position: absolute; z-index: 1; left: 5px; top: 50%; transform: translateY(-50%); font-size: .75rem; font-weight: 700; color: #fff; background: var(--green); padding: 3px 7px; border-radius: 999px; white-space: nowrap;
+      transition: transform .4s var(--ease) .35s, opacity .25s .35s; font-variant-numeric: tabular-nums; }
+    .found { position: absolute; right: 18px; top: -14px; background: var(--green); color: #fff; border-radius: 999px; padding: 5px 14px; font-size: .85rem; font-weight: 600; box-shadow: var(--shadow); }
     .js #saring:not(.on1) .c.x.s1::after, .js #saring:not(.on2) .c.x.s2::after { clip-path: inset(0 100% 0 0); }
     .js #saring:not(.on3) .c.ok::before { transform: scaleX(0); }
-    .js #saring:not(.on3) .tag { opacity: 0; transform: translateY(-50%) rotate(-4deg) scale(1.8); }
-    .legend { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 14px; font: 700 12px/1 var(--mono); text-transform: uppercase; color: var(--muted); }
+    .js #saring:not(.on3) .tag { opacity: 0; transform: translateY(-30%); }
+    .js .found { transition: opacity .3s, transform .4s var(--ease); }
+    .js #saring:not(.on3) .found { opacity: 0; transform: translateY(6px); }
+    .legend { display: flex; gap: 18px; flex-wrap: wrap; margin-top: 14px; font-size: .8rem; color: var(--muted); }
     .legend span { display: flex; align-items: center; gap: 6px; }
-    .legend i { width: 16px; height: 12px; border: 1.5px solid var(--rule); }
-    .legend .lx { background: repeating-linear-gradient(-45deg, var(--red) 0 2px, transparent 2px 5px); border-color: var(--red); }
-    .legend .lo { background: var(--yellow); border-color: var(--ink); }
+    .legend i { width: 16px; height: 12px; border-radius: 3px; }
+    .legend .lx { background: repeating-linear-gradient(-45deg, rgba(168,67,79,.6) 0 1.5px, transparent 1.5px 4px), var(--rose-soft); }
+    .legend .lo { background: var(--green-soft); box-shadow: inset 0 0 0 1.5px var(--green); }
 
     /* 4. Pay and stamp */
     #bayar { --h: 260vh; }
-    #bayar .stage { background: var(--yellow); }
-    .pay { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    #bayar .stage { background: var(--rose-soft); }
+    .pay { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
     .pay-copy { display: grid; gap: 22px; }
-    .pay-copy .lead { color: #3d3a1d; }
-    .methods { display: flex; gap: 14px; align-items: center; }
-    .methods img { height: 30px; width: auto; background: #fff; border: 2px solid var(--ink); padding: 6px 10px; box-sizing: content-box; }
-    .slip-stage { --a: clamp(0, calc((var(--p) - .1) / .4), 1); position: relative; height: min(70svh, 560px); }
-    .invoice, .proof { position: absolute; background: #fff; border: 2px solid var(--ink); }
-    .invoice { inset: 0 18% 8% 0; padding: 24px; display: grid; gap: 10px; align-content: start; }
-    .invoice h3 { font-size: 1.7rem; font-stretch: 66%; }
-    .line { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1.5px solid var(--line); padding: 7px 0; font-size: .95rem; }
-    .line b { font-family: var(--mono); }
-    .line.tot { border-bottom: 0; border-top: 2px solid var(--ink); font-weight: 800; }
-    .line.dp { background: var(--yellow); padding: 10px; border: 2px solid var(--ink); }
-    .proof { right: 0; bottom: 0; width: 46%; padding: 16px; display: grid; gap: 8px; font: 700 12px/1.3 var(--mono); text-transform: uppercase;
-      box-shadow: 0 2px 4px rgba(18,21,18,.14), 0 16px 32px rgba(18,21,18,.2);
-      transform: translate(calc((1 - var(--a)) * 120%), calc((1 - var(--a)) * 30%)) rotate(calc((1 - var(--a)) * 12deg + 3deg)); }
-    .proof .chk { width: 34px; height: 34px; color: var(--green); }
-    .stamp { position: absolute; left: 12%; top: 60%; z-index: 3; color: var(--green); border: 5px solid currentColor; padding: 8px 18px; font-weight: 900; font-stretch: 62%; font-size: clamp(2.6rem, 5vw, 4rem);
-      text-transform: uppercase; line-height: .9; text-align: center; mix-blend-mode: multiply; transform: rotate(-12deg); }
-    .stamp small { display: block; font: 700 13px/1.2 var(--mono); letter-spacing: .04em; }
-    .js .stamp { opacity: 0; transform: rotate(-12deg) scale(2.4); filter: blur(6px); transition: transform .28s cubic-bezier(.7, 0, .84, 0), opacity .15s, filter .25s; }
-    .js #bayar.on .stamp { opacity: .92; transform: rotate(-12deg) scale(1); filter: none; }
+    .methods { display: flex; gap: 12px; align-items: center; }
+    .methods img { height: 28px; width: auto; background: #fff; border-radius: 10px; padding: 8px 12px; box-sizing: content-box; box-shadow: var(--shadow); }
+    .slip-stage { --a: clamp(0, calc((var(--p) - .1) / .4), 1); position: relative; height: min(68svh, 540px); }
+    .invoice, .proof { position: absolute; background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); }
+    .invoice { inset: 0 16% 8% 0; padding: 26px; display: grid; gap: 6px; align-content: start; }
+    .invoice h3 { font-size: 1.5rem; margin-bottom: 6px; }
+    .line { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--line); padding: 8px 0; font-size: .95rem; }
+    .line b { font-weight: 600; font-variant-numeric: tabular-nums; }
+    .line.tot { border-bottom: 0; font-weight: 700; }
+    .line.dp { background: var(--rose-soft); border: 0; border-radius: 10px; padding: 10px 12px; color: var(--rose-deep); font-weight: 600; }
+    .proof { right: 0; bottom: 0; width: 46%; padding: 18px; display: grid; gap: 4px; font-size: .85rem; color: var(--muted);
+      box-shadow: 0 2px 4px rgba(31,27,24,.08), 0 18px 36px rgba(31,27,24,.16);
+      transform: translate(calc((1 - var(--a)) * 110%), calc((1 - var(--a)) * 24%)) rotate(calc((1 - var(--a)) * 8deg + 2deg)); }
+    .proof b { color: var(--ink); }
+    .proof .chk { width: 30px; height: 30px; color: var(--green); margin-bottom: 4px; }
+    .stamp { position: absolute; left: 12%; top: 60%; z-index: 3; color: var(--green); border: 3px double currentColor; border-radius: 12px; padding: 6px 18px; text-align: center;
+      font: italic 600 clamp(2rem, 3.6vw, 2.8rem)/1 var(--display); mix-blend-mode: multiply; transform: rotate(-9deg); }
+    .stamp small { display: block; font: 600 .7rem/1.4 var(--body); letter-spacing: .08em; text-transform: uppercase; font-style: normal; }
+    .js .stamp { opacity: 0; transform: rotate(-9deg) scale(1.5); transition: transform .35s var(--ease), opacity .25s; }
+    .js #bayar.on .stamp { opacity: .9; transform: rotate(-9deg) scale(1); }
 
-    /* 5. Darkroom gallery */
+    /* 5. Gallery develops */
     #galeri { --h: 320vh; }
     #galeri .stage { --l: clamp(0, calc((var(--p) - .55) / .35), 1);
-      background: color-mix(in srgb, #2a0805 calc((1 - var(--l)) * 100%), var(--paper)); color: color-mix(in srgb, #ffd9d2 calc((1 - var(--l)) * 100%), var(--ink)); }
-    .gal { display: grid; grid-template-columns: .75fr 1.25fr; gap: 48px; align-items: center; }
+      background: color-mix(in srgb, #241a17 calc((1 - var(--l)) * 100%), var(--bg)); color: color-mix(in srgb, #f3ece4 calc((1 - var(--l)) * 100%), var(--ink)); }
+    #galeri h2 em { color: color-mix(in srgb, #e8a3ab calc((1 - var(--l)) * 100%), var(--rose)); }
+    .gal { display: grid; grid-template-columns: .75fr 1.25fr; gap: 56px; align-items: center; }
     .gal-copy { display: grid; gap: 20px; }
-    .gal-copy .lead { color: inherit; opacity: .8; }
-    .contact { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 12px; background: #120302; border: 2px solid #120302; }
-    .shot { --d: clamp(0, calc(var(--p) * 1.9 - var(--i) * .07), 1); position: relative; aspect-ratio: 3 / 4; overflow: hidden; background: #3a0d08; }
+    .gal-copy .lead { color: inherit; opacity: .78; }
+    .contact { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .shot { --d: clamp(0, calc(var(--p) * 1.9 - var(--i) * .07), 1); position: relative; aspect-ratio: 3 / 4; overflow: hidden; border-radius: 8px; background: #3a2a25; }
     .shot img { width: 100%; height: 100%; object-fit: cover;
-      filter: blur(calc((1 - var(--d)) * 10px)) grayscale(calc(1 - var(--d))) sepia(calc((1 - var(--d)) * .9)) brightness(calc(.15 + var(--d) * .85)); transform: scale(calc(1.12 - var(--d) * .12)); }
-    .shot .fav { position: absolute; right: 6px; top: 6px; width: 22px; height: 22px; color: var(--red); opacity: 0; transition: opacity .3s, transform .3s var(--ease); transform: scale(.4); }
-    .shot.f .fav { opacity: calc(var(--l) * 1); transform: scale(calc(.4 + var(--l) * .6)); }
-    .shot span { position: absolute; left: 6px; bottom: 5px; font: 700 10px/1 var(--mono); color: #fff; opacity: .75; }
-    .unlock { display: flex; align-items: center; gap: 12px; border: 2px solid currentColor; padding: 12px 16px; font: 700 14px/1.3 var(--mono); text-transform: uppercase; max-width: 30em; }
-    .unlock svg { width: 26px; height: 26px; flex: none; }
+      filter: blur(calc((1 - var(--d)) * 8px)) grayscale(calc(1 - var(--d))) sepia(calc((1 - var(--d)) * .7)) brightness(calc(.2 + var(--d) * .8)); transform: scale(calc(1.08 - var(--d) * .08)); }
+    .shot .fav { position: absolute; right: 7px; top: 7px; width: 22px; height: 22px; color: #fff; filter: drop-shadow(0 1px 2px rgba(0,0,0,.4)); opacity: var(--l); }
+    .shot .fav path { fill: var(--rose); }
+    .unlock { display: flex; align-items: center; gap: 12px; border: 1px solid currentColor; border-radius: var(--radius); padding: 12px 16px; font-size: .92rem; max-width: 30em; opacity: .9; }
+    .unlock svg { width: 24px; height: 24px; flex: none; }
 
     /* 6. Close */
-    .close { background: var(--green); color: #fff; padding: 96px 0 72px; border-top: 8px solid var(--yellow); position: relative; }
-    .close::before { content: ""; position: absolute; left: 0; right: 0; top: -22px; height: 14px; background: radial-gradient(circle, var(--paper) 3px, transparent 3.6px) 0 0 / 16px 14px repeat-x; }
+    .close { background: var(--dark); color: #f3ece4; padding: 96px 0 72px; }
     .close-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 40px; align-items: end; }
-    .close h2 { color: #fff; }
-    .close .btn.ghost { color: #fff; border-color: #fff; }
-    .close .btn.ghost:hover { background: #fff; color: var(--green); }
-    .close .btn.red { border-color: var(--yellow); background: var(--yellow); color: var(--ink); }
-    .close .links { display: grid; gap: 10px; font: 700 14px/1.3 var(--mono); text-transform: uppercase; }
-    .close .links a { color: #fff; text-underline-offset: 4px; }
-    .fine { margin-top: 56px; font-size: 13px; color: #cfe5d6; max-width: 70ch; }
+    .close h2 em { color: #e8a3ab; }
+    .close .btn.ghost { color: #f3ece4; border-color: #f3ece4; }
+    .close .btn.ghost:hover { background: #f3ece4; color: var(--ink); }
+    .close .links { display: grid; gap: 10px; font-size: .95rem; }
+    .close .links a { color: #f3ece4; text-underline-offset: 4px; }
+    .close .links span { color: #c9bdb0; font-size: .85rem; }
+    .fine { margin-top: 56px; font-size: 13px; color: #a89c90; max-width: 70ch; }
+    canvas.confetti { position: fixed; inset: 0; z-index: 55; pointer-events: none; }
 
     @media (max-width: 860px) {
-      body { font-size: 16px; }
+      body { font-size: 15px; }
       .hero-grid, .sieve, .pay, .gal, .close-grid { grid-template-columns: 1fr; gap: 22px; }
       .js .stage { align-content: center; }
       .hero-copy { gap: 14px; }
+      h1 { font-size: 2.5rem; }
       .env-stage { height: 38svh; }
-      h1 { font-size: 2.9rem; }
-      .stamp { font-size: 2rem; left: 4%; top: 64%; border-width: 4px; padding: 6px 12px; }
+      .seal { width: 42px; font-size: .95rem; left: auto; right: 14px; top: 14px; transform: none; }
+      .print figcaption { font-size: .75rem; bottom: 12px; }
+      .print figcaption span + span { display: none; }
+      .env { padding: 16px; }
       .lead { font-size: 1rem; }
       .grid { grid-template-columns: repeat(12, 1fr); gap: 2px; }
       .grid .lbl { grid-column: 1 / -1; font-size: .8rem; margin-top: 4px; }
       .grid .corner { display: none; }
       .grid .hr { font-size: 9px; }
-      .c { height: 26px; }
-      .tag { font-size: 10px; padding: 2px 3px; }
-      .sheet { padding: 12px; }
+      .c { height: 26px; border-radius: 4px; }
+      .tag { font-size: 9px; padding: 2px 4px; left: 2px; }
+      .sheet { padding: 14px; }
       .steps { min-height: 6.5em; margin-top: 12px; }
-      .order { margin-top: 8px; font-size: 12px; }
+      .order { margin-top: 8px; } .order span { font-size: .75rem; padding: 3px 9px; }
       .step b { font-size: 1.05rem; } .step p { font-size: .9rem; }
-      #saring h2 { font-size: 2.1rem; }
+      #saring h2 { font-size: 2rem; }
       .slip-stage { height: 46svh; }
-      .invoice { padding: 16px; inset: 0 12% 10% 0; } .invoice h3 { font-size: 1.3rem; } .line { font-size: .85rem; padding: 5px 0; }
-      .proof { width: 56%; }
-      .contact { grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 6px; }
+      .invoice { padding: 16px; inset: 0 10% 12% 0; } .invoice h3 { font-size: 1.2rem; } .line { font-size: .82rem; padding: 5px 0; }
+      .proof { width: 54%; padding: 12px; font-size: .75rem; }
+      .stamp { font-size: 1.6rem; left: 4%; top: 62%; padding: 4px 12px; }
+      .contact { gap: 5px; }
       .gal-copy { gap: 12px; }
+      .track { gap: 20px; }
     }
-
-
-    /* ===== Festive layer ===== */
-    .stage { position: relative; isolation: isolate; }
-    .stage > .wrap, .stage > .track { position: relative; z-index: 1; }
-    .ghost-word { position: absolute; z-index: 0; left: 50%; top: 50%; white-space: nowrap; pointer-events: none; user-select: none;
-      font-weight: 900; font-stretch: 62%; text-transform: uppercase; line-height: .8; font-size: clamp(9rem, 30vw, 26rem); color: transparent;
-      -webkit-text-stroke: 2px var(--gw, var(--green)); opacity: .16; transform: translate(calc(-50% + (.5 - var(--p)) * 40vw), -50%) rotate(-6deg); }
-    #paket .ghost-word { --gw: var(--yellow); opacity: .22; top: 78%; }
-    #saring .ghost-word { --gw: var(--red); opacity: .1; }
-    #bayar .ghost-word { --gw: var(--ink); opacity: .1; }
-    #galeri .ghost-word { --gw: #ff8a7a; opacity: .14; }
-
-    .reel { position: fixed; z-index: 40; left: 0; right: 0; top: 0; height: 12px; background: var(--ink); pointer-events: none;
-      transform: scaleX(var(--sp, 0)); transform-origin: left; }
-    .reel::after { content: ""; position: absolute; inset: 3px 0; background: radial-gradient(circle, var(--yellow) 2.2px, transparent 2.8px) 0 50% / 14px 6px repeat-x; }
-    html:not(.js) .reel { display: none; }
-
-    .burst { position: absolute; z-index: 0; left: 50%; top: 40%; width: 150%; aspect-ratio: 1; border-radius: 50%; pointer-events: none;
-      background: repeating-conic-gradient(var(--yellow) 0 7.5deg, transparent 7.5deg 15deg);
-      -webkit-mask: radial-gradient(circle, #000 25%, transparent 68%); mask: radial-gradient(circle, #000 25%, transparent 68%);
-      transform: translate(-50%, -50%) rotate(calc(var(--p) * 220deg)) scale(calc(.2 + var(--a) * .8)); opacity: calc(.2 + var(--a) * .8); }
-    .print.p2, .print.p3 { z-index: 1; }
-    .print.p2 { transform: translateY(calc((1 - var(--a)) * 38%)) translateX(calc(var(--a) * -42%)) rotate(calc(var(--a) * -16deg)) scale(.86); }
-    .print.p3 { transform: translateY(calc((1 - var(--a)) * 38%)) translateX(calc(var(--a) * 40%)) rotate(calc(var(--a) * 13deg)) scale(.86); }
-    .print.main { z-index: 2; }
-    .env { z-index: 3; }
-    .sticker { position: absolute; z-index: 4; right: -4%; top: 4%; width: clamp(96px, 11vw, 132px); aspect-ratio: 1; border-radius: 50%; background: var(--red); color: #fff;
-      display: grid; place-items: center; text-align: center; font-weight: 900; font-stretch: 62%; text-transform: uppercase; font-size: clamp(1rem, 1.6vw, 1.35rem); line-height: .9;
-      box-shadow: 0 3px 6px rgba(18,21,18,.2), 0 12px 24px rgba(18,21,18,.2);
-      transform: rotate(calc(-14deg + var(--p) * 300deg)) scale(calc(var(--a) * 1)); }
-    .sticker::before { content: ""; position: absolute; inset: 6px; border-radius: 50%; border: 2px dashed rgba(255,255,255,.75); }
-    .flash { position: fixed; inset: 0; z-index: 60; background: #fff; pointer-events: none; opacity: 0; }
-    .flash.go { animation: flash .55s ease-out; }
-    @keyframes flash { 0% { opacity: 0; } 8% { opacity: .95; } 100% { opacity: 0; } }
-
-    .tapes { position: relative; z-index: 6; height: 0; }
-    .tape { position: absolute; left: -10vw; width: 120vw; overflow: hidden; padding: 14px 0; border-block: 3px solid var(--ink);
-      font-weight: 900; font-stretch: 62%; text-transform: uppercase; font-size: clamp(1.6rem, 3.4vw, 2.6rem); line-height: 1; white-space: nowrap; }
-    .tape > div { display: inline-flex; gap: 28px; transform: translateX(calc(var(--t, 0) * 1px)); }
-    .tape b { display: inline-flex; align-items: center; gap: 28px; }
-    .tape b::after { content: ""; width: .5em; height: .5em; background: currentColor; transform: rotate(45deg); }
-    .tape.a { top: -46px; background: var(--yellow); color: var(--ink); transform: rotate(-3deg); }
-    .tape.b { top: -40px; background: var(--red); color: #fff; transform: rotate(2.4deg); }
-    .tape.b > div { transform: translateX(calc(var(--t, 0) * -1px - 400px)); }
-
-    .js .pack { transition: box-shadow .2s; }
-    .pack:hover { box-shadow: 0 4px 8px rgba(0,0,0,.18), 0 18px 36px rgba(0,0,0,.25); }
-    .btn:hover { transform: rotate(-2deg) scale(1.04); }
-    .sieve-pop { position: absolute; z-index: 5; right: 6%; top: 6%; background: var(--yellow); border: 3px solid var(--ink); padding: 8px 14px; font-weight: 900; font-stretch: 62%;
-      font-size: 1.8rem; text-transform: uppercase; transform: rotate(6deg); line-height: 1; }
-    .js .sieve-pop { opacity: 0; transform: rotate(6deg) scale(.3); transition: transform .45s var(--ease), opacity .2s; }
-    .js #saring.on3 .sieve-pop { opacity: 1; transform: rotate(6deg) scale(1); }
-    .sheet { position: relative; }
-    canvas.confetti { position: fixed; inset: 0; z-index: 55; pointer-events: none; }
-    @media (max-width: 860px) {
-      .tape { font-size: 1.4rem; padding: 10px 0; }
-      .sticker { right: -2%; top: 0; width: 84px; font-size: .95rem; }
-      .sieve-pop { font-size: 1.2rem; top: -14px; right: 8px; }
-      .ghost-word { font-size: 42vw; }
-      .track { gap: 34px; }
-    }
-
     @media (prefers-reduced-motion: reduce) {
       .scroll-cue svg { animation: none; }
       * { transition-duration: .01ms !important; }
@@ -290,37 +242,36 @@
   </style>
 </head>
 <body>
-  <div class="reel" aria-hidden="true"></div><div class="flash" aria-hidden="true"></div>
-  <div class="mock-bar"><span>PhotoStudio System Proposal · versi animasi scroll · semua data contoh</span><a href="index.html">Kembali ke halaman awal</a></div>
+  <div class="progress" aria-hidden="true"></div>
+  <div class="mock-bar"><span>PhotoStudio System Proposal · versi animasi scroll · semua data contoh</span><a href="index.html?theme=klasik">Kembali ke halaman awal</a></div>
 
   <main>
     <section class="scene" id="hero" data-scene>
-      <div class="stage"><span class="ghost-word" aria-hidden="true">CEKREK!</span>
+      <div class="stage">
         <div class="wrap hero-grid">
           <div class="hero-copy">
-            <h1>Booking studio foto. <span>Tanpa bolak-balik DM.</span></h1>
+            <div class="brand"><i></i>Nama Studio</div>
+            <h1>Booking studio foto, <em>tanpa bolak-balik DM.</em></h1>
             <p class="lead">Pilih sesi, ruangan, dan tim. Jam yang tampil pasti bisa. Bayar DP, lalu ambil foto di galeri online.</p>
             <div class="row">
-              <a class="btn red" href="booking.html">Booking sesi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7"/></svg></a>
-              <a class="btn ghost" href="booking-saya.html">Cek booking saya</a>
+              <a class="btn rose" href="booking.html?theme=klasik">Booking sesi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7"/></svg></a>
+              <a class="btn ghost" href="booking-saya.html?theme=klasik">Cek booking saya</a>
             </div>
-            <p class="scroll-cue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 4v15M5 13l7 7 7-7"/></svg>Scroll untuk lihat alurnya</p>
+            <p class="scroll-cue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 4v15M5 13l7 7 7-7"/></svg>Scroll untuk lihat alurnya</p>
           </div>
           <div class="env-stage" aria-hidden="true">
-            <div class="burst"></div>
             <figure class="print p2"><img src="https://images.unsplash.com/photo-1551728339-499b333c5c43?w=600&h=760&fit=crop&crop=faces,entropy&q=65&auto=format" alt=""><figcaption><span>Graduation</span><span>BK-2598</span></figcaption></figure>
             <figure class="print p3"><img src="https://images.unsplash.com/photo-1760328249117-18488466e34c?w=600&h=760&fit=crop&crop=faces,entropy&q=65&auto=format" alt=""><figcaption><span>Family</span><span>BK-2604</span></figcaption></figure>
             <figure class="print main">
               <img src="https://images.unsplash.com/photo-1554384032-56ff486b6cd4?w=900&h=1100&fit=crop&crop=faces,entropy&q=72&auto=format" alt="">
               <figcaption><span>Prewedding</span><span>BK-2611</span></figcaption>
             </figure>
-            <div class="sticker"><span>Booking<br>online!</span></div>
             <div class="env">
-              <div class="env-title">Nama Studio<br>Cuci cetak</div>
+              <div class="seal">NS</div>
+              <div class="env-title">Nama Studio<em>Hasil foto Anda</em></div>
               <div class="env-form">
                 <div>Nama <i>Dinda &amp; Raka</i></div>
-                <div>No. <i>BK-2611</i> Tgl <i>28.11</i></div>
-                <div><span><span class="box"></span>4R</span><span><span class="box x"></span>Digital</span><span><span class="box x"></span>Galeri</span></div>
+                <div>No. <i>BK-2611</i> Tanggal <i>28 Nov</i></div>
               </div>
             </div>
           </div>
@@ -328,12 +279,10 @@
       </div>
     </section>
 
-    <div class="tapes" aria-hidden="true"><div class="tape a"><div><b>Prewedding</b><b>Graduation</b><b>Family</b><b>Sewa studio</b><b>MUA</b><b>Stylist</b><b>Galeri online</b><b>Prewedding</b><b>Graduation</b><b>Family</b><b>Sewa studio</b><b>MUA</b><b>Stylist</b><b>Galeri online</b><b>Prewedding</b><b>Graduation</b><b>Family</b><b>Sewa studio</b><b>MUA</b><b>Stylist</b><b>Galeri online</b></div></div><div class="tape b"><div><b>Prewedding</b><b>Graduation</b><b>Family</b><b>Sewa studio</b><b>MUA</b><b>Stylist</b><b>Galeri online</b><b>Prewedding</b><b>Graduation</b><b>Family</b><b>Sewa studio</b><b>MUA</b><b>Stylist</b><b>Galeri online</b><b>Prewedding</b><b>Graduation</b><b>Family</b><b>Sewa studio</b><b>MUA</b><b>Stylist</b><b>Galeri online</b></div></div></div>
-
     <section class="scene" id="paket" data-scene data-track>
-      <div class="stage"><span class="ghost-word" aria-hidden="true">PILIH SESI</span>
+      <div class="stage">
         <div class="wrap">
-          <h2>Empat cara datang ke studio</h2>
+          <h2>Empat cara <em>datang ke studio</em></h2>
           <p class="lead" style="margin-top:12px">Customer cukup pilih jenis sesi. Ruangan dan tim diatur sistem.</p>
         </div>
         <div class="track">
@@ -355,25 +304,21 @@
           </article>
           <article class="pack end">
             <h3>Tambah tim kalau perlu</h3>
-            <div class="pack-meta" style="border-color:var(--ink)"><span>Fotografer</span><b>Rp 800rb</b></div>
-            <div class="pack-meta" style="border-color:var(--ink)"><span>MUA</span><b>Rp 650rb</b></div>
-            <div class="pack-meta" style="border-color:var(--ink)"><span>Stylist</span><b>Rp 450rb</b></div>
+            <div class="pack-meta"><span>Fotografer</span><b>Rp 800rb</b></div>
+            <div class="pack-meta"><span>MUA</span><b>Rp 650rb</b></div>
+            <div class="pack-meta"><span>Stylist</span><b>Rp 450rb</b></div>
             <p>Customer centang kebutuhan. Admin yang memilih orangnya.</p>
           </article>
         </div>
       </div>
     </section>
 
-    <section class="scene" id="saring" data-scene data-steps="4" data-step="3">
-      <div class="stage"><span class="ghost-word" aria-hidden="true">PAS!</span>
+    <section class="scene" id="saring" data-scene data-step="3">
+      <div class="stage">
         <div class="wrap sieve">
           <div>
-            <h2>Jam yang tampil pasti bisa</h2>
-            <div class="order">
-              <span><i class="box"></i>Prewedding, 3 jam</span>
-              <span><i class="box"></i>Studio Rose</span>
-              <span><i class="box"></i>Fotografer + MUA</span>
-            </div>
+            <h2>Jam yang tampil <em>pasti bisa</em></h2>
+            <div class="order"><span>Prewedding, 3 jam</span><span>Studio Rose</span><span>Fotografer + MUA</span></div>
             <div class="steps">
               <div class="step" data-n="0"><b>Customer memilih sesi dan tim</b><p>Sistem lalu mengecek hari Sabtu, 28 November, dari jam 09.00 sampai 21.00.</p></div>
               <div class="step" data-n="1"><b>Ruangan sudah dipakai? Dicoret.</b><p>Studio Rose sudah dibooking orang lain pagi dan malam.</p></div>
@@ -382,20 +327,20 @@
             </div>
           </div>
           <div class="sheet" aria-label="Contoh jadwal satu hari">
-            <div class="sieve-pop" aria-hidden="true">Ketemu!</div>
-            <div class="sheet-head"><span>Sabtu 28.11</span><span>Jadwal contoh</span></div>
+            <div class="found" aria-hidden="true">2 jam mulai tersedia</div>
+            <div class="sheet-head"><b>Sabtu, 28 November</b><span>Jadwal contoh</span></div>
             <div class="grid" id="sieve-grid"></div>
-            <div class="legend"><span><i class="lx"></i>Tidak bisa</span><span><i class="lo"></i>Jam mulai yang tampil</span></div>
+            <div class="legend"><span><i class="lx"></i>Tidak bisa</span><span><i class="lo"></i>Jam yang tampil ke customer</span></div>
           </div>
         </div>
       </div>
     </section>
 
     <section class="scene" id="bayar" data-scene data-flag=".55">
-      <div class="stage"><span class="ghost-word" aria-hidden="true">LUNAS!</span>
+      <div class="stage">
         <div class="wrap pay">
           <div class="pay-copy">
-            <h2>Bayar DP, admin cek, beres</h2>
+            <h2>Bayar DP, <em>admin cek, beres</em></h2>
             <p class="lead">Bayar lewat QRIS atau transfer BCA, lalu upload bukti bayar. Admin memverifikasi dengan satu klik dan status booking langsung berubah.</p>
             <div class="methods"><img src="assets/logos/qris.svg" alt="QRIS"><img src="assets/logos/bca.svg" alt="BCA"></div>
           </div>
@@ -409,8 +354,8 @@
               <div class="line dp"><span>DP 50%</span><b>Rp 1.400.000</b></div>
             </div>
             <div class="proof">
-              <svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="10"/><path d="m7 12.5 3.2 3.2L17 9"/></svg>
-              <span>Bukti transfer</span><span>BCA · Rp 1.400.000</span><span>Diupload 19.42</span>
+              <svg class="chk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m7 12.5 3.2 3.2L17 9"/></svg>
+              <b>Bukti transfer</b><span>BCA · Rp 1.400.000</span><span>Diupload 19.42</span>
             </div>
             <div class="stamp">DP lunas<small>Diverifikasi admin</small></div>
           </div>
@@ -419,12 +364,12 @@
     </section>
 
     <section class="scene" id="galeri" data-scene>
-      <div class="stage"><span class="ghost-word" aria-hidden="true">JADI!</span>
+      <div class="stage">
         <div class="wrap gal">
           <div class="gal-copy">
-            <h2>Foto jadi, langsung di galeri</h2>
+            <h2>Foto jadi, <em>langsung di galeri</em></h2>
             <p class="lead">Admin upload foto. Customer dapat link galeri lewat WhatsApp, lalu memilih favorit untuk diedit.</p>
-            <div class="unlock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M8 10V7a4 4 0 0 1 7.6-1.7"/></svg>File asli (ZIP) terbuka setelah pembayaran lunas. Galeri dibuka 30 hari.</div>
+            <div class="unlock"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 7.6-1.7"/></svg>File asli (ZIP) terbuka setelah pembayaran lunas. Galeri dibuka 30 hari.</div>
           </div>
           <div class="contact" id="contact" aria-label="Contoh galeri foto"></div>
         </div>
@@ -434,18 +379,18 @@
     <section class="close" id="close">
       <div class="wrap close-grid">
         <div>
-          <h2>Coba booking dari awal</h2>
+          <h2>Coba booking <em>dari awal</em></h2>
           <div class="row" style="margin-top:28px">
-            <a class="btn red" href="booking.html">Booking sesi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7"/></svg></a>
-            <a class="btn ghost" href="booking-saya.html">Booking saya &amp; galeri</a>
+            <a class="btn rose" href="booking.html?theme=klasik">Booking sesi <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7"/></svg></a>
+            <a class="btn ghost" href="booking-saya.html?theme=klasik">Booking saya &amp; galeri</a>
           </div>
         </div>
         <nav class="links" aria-label="Sisi admin">
-          <span style="opacity:.75">Sisi admin</span>
-          <a href="admin/index.html">Jadwal ruangan &amp; tim</a>
-          <a href="admin/booking.html">Verifikasi pembayaran</a>
-          <a href="admin/freelancer.html">Jadwal freelancer</a>
-          <a href="admin/laporan.html">Laporan Excel</a>
+          <span>Sisi admin</span>
+          <a href="admin/index.html?theme=klasik">Jadwal ruangan &amp; tim</a>
+          <a href="admin/booking.html?theme=klasik">Verifikasi pembayaran</a>
+          <a href="admin/freelancer.html?theme=klasik">Jadwal freelancer</a>
+          <a href="admin/laporan.html?theme=klasik">Laporan Excel</a>
         </nav>
       </div>
       <p class="wrap fine">"Nama Studio" adalah tempat untuk nama dan logo brand client. Foto dari Unsplash (Unsplash License). Semua nama, harga, jadwal, dan booking adalah data contoh.</p>
@@ -476,29 +421,30 @@
     html += hrs.map((h) => okSet.has(h)
       ? `<span class="c ok" style="--i:${j++}">${starts.includes(h) ? `<b class="tag">${pad(h)}.00</b>` : ""}</span>`
       : `<span class="c dim"></span>`).join("");
-    const grid = document.getElementById("sieve-grid");
-    grid.innerHTML = html;
+    document.getElementById("sieve-grid").innerHTML = html;
 
     // Contact sheet
     const IDS = ["1554384032-56ff486b6cd4", "1647427854253-b92bb40c9330", "1551728339-499b333c5c43", "1760328249117-18488466e34c",
       "1726650680145-d441d5882bdb", "1634148739677-a5bb54df2611", "1736580602204-b940bb0423ec", "1554384032-56ff486b6cd4",
       "1647427854253-b92bb40c9330", "1760328249117-18488466e34c", "1551728339-499b333c5c43", "1634148739677-a5bb54df2611"];
-    const FAV = new Set([0, 3, 6, 9]);
-    document.getElementById("contact").innerHTML = IDS.map((id, i) => `<div class="shot${FAV.has(i) ? " f" : ""}" style="--i:${i}">
+    const FAV = new Set([0, 3, 9]);
+    document.getElementById("contact").innerHTML = IDS.map((id, i) => `<div class="shot" style="--i:${i}">
       <img src="https://images.unsplash.com/photo-${id}?w=360&h=480&fit=crop&crop=${i % 2 ? "entropy" : "faces,entropy"}&q=60&auto=format" alt="" loading="lazy">
-      <svg class="fav" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 5 6.4 5c2 0 3.6 1.1 4.6 2.6h2C14 6.1 15.6 5 17.6 5 21 5 23.1 8.4 21.6 11.8 19.5 16.4 12 21 12 21z"/></svg>
-      <span>${String(i + 1).padStart(3, "0")}</span></div>`).join("");
+      ${FAV.has(i) ? `<svg class="fav" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 5 6.4 5c2 0 3.6 1.1 4.6 2.6h2C14 6.1 15.6 5 17.6 5 21 5 23.1 8.4 21.6 11.8 19.5 16.4 12 21 12 21z"/></svg>` : ""}</div>`).join("");
 
     // Scroll engine. Reduced motion keeps the static final-state page.
     if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      document.documentElement.classList.add("js");
+      const root = document.documentElement;
+      root.classList.add("js");
       const scenes = [...document.querySelectorAll("[data-scene]")];
       const sieve = document.getElementById("saring");
+      const sheet = sieve.querySelector(".sheet");
       sieve.dataset.step = "0";
-      // Confetti: paper punches and film chips in the lab colours.
+
+      // One quiet confetti moment, when the free times are found.
       const cv = Object.assign(document.createElement("canvas"), { className: "confetti" });
       document.body.append(cv);
-      const cx = cv.getContext("2d"), bits = [], COLORS = ["#d3261b", "#ffd100", "#0b7a3b", "#121512", "#ffffff"];
+      const cx = cv.getContext("2d"), bits = [], COLORS = ["#a8434f", "#e8a3ab", "#2f7d5b", "#efe7dc"];
       let running = false;
       const fit = () => { cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio; cx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0); };
       fit();
@@ -506,38 +452,27 @@
         cx.clearRect(0, 0, innerWidth, innerHeight);
         for (let i = bits.length - 1; i >= 0; i--) {
           const b = bits[i];
-          b.vy += .32; b.vx *= .985; b.vy *= .985; b.x += b.vx; b.y += b.vy; b.r += b.vr; b.life--;
+          b.vy += .22; b.vx *= .98; b.vy *= .98; b.x += b.vx; b.y += b.vy; b.r += b.vr; b.life--;
           if (b.life <= 0 || b.y > innerHeight + 40) { bits.splice(i, 1); continue; }
-          cx.save(); cx.translate(b.x, b.y); cx.rotate(b.r); cx.scale(1, Math.cos(b.life * .18)); cx.fillStyle = b.c;
-          if (b.round) { cx.beginPath(); cx.arc(0, 0, b.s / 2, 0, 7); cx.fill(); } else cx.fillRect(-b.s / 2, -b.s / 4, b.s, b.s / 2);
-          cx.restore();
+          cx.save(); cx.globalAlpha = Math.min(1, b.life / 40); cx.translate(b.x, b.y); cx.rotate(b.r); cx.scale(1, Math.cos(b.life * .12)); cx.fillStyle = b.c;
+          cx.beginPath(); cx.ellipse(0, 0, b.s / 2, b.s / 3, 0, 0, 7); cx.fill(); cx.restore();
         }
         if (bits.length) requestAnimationFrame(draw); else { running = false; cx.clearRect(0, 0, innerWidth, innerHeight); }
       };
-      const confetti = (x, y, n = 90, spread = 1) => {
+      const confetti = (x, y, n) => {
         for (let i = 0; i < n; i++) {
-          const a = -Math.PI / 2 + (Math.random() - .5) * 2.2 * spread, v = 7 + Math.random() * 10;
-          bits.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: Math.random() * 6, vr: (Math.random() - .5) * .4,
-            s: 7 + Math.random() * 9, c: COLORS[i % COLORS.length], round: Math.random() < .35, life: 140 + Math.random() * 60 });
+          const a = -Math.PI / 2 + (Math.random() - .5) * 1.8, v = 5 + Math.random() * 6;
+          bits.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: Math.random() * 6, vr: (Math.random() - .5) * .2, s: 6 + Math.random() * 6, c: COLORS[i % COLORS.length], life: 110 + Math.random() * 50 });
         }
         if (!running) { running = true; requestAnimationFrame(draw); }
       };
-      const at = (el) => { const r = el.getBoundingClientRect(); return [r.left + r.width / 2, r.top + r.height / 2]; };
-      const flashEl = document.querySelector(".flash");
-      const flash = () => { flashEl.classList.remove("go"); void flashEl.offsetWidth; flashEl.classList.add("go"); };
-      // Fire each effect once per pass, when the scene crosses its point going down.
-      const fired = {};
-      const once = (key, hit, fn) => { if (hit && !fired[key]) { fired[key] = true; fn(); } else if (!hit) fired[key] = false; };
-      const tapes = [...document.querySelectorAll(".tape")];
-      const packs = [...document.querySelectorAll(".pack")];
-      const closeEl = document.getElementById("close");
+      let foundOnce = false;
+
       let queued = false;
       const tick = () => {
         queued = false;
         const vh = innerHeight;
-        const root = document.documentElement;
         root.style.setProperty("--sp", (scrollY / (root.scrollHeight - vh)).toFixed(4));
-        for (const t of tapes) t.style.setProperty("--t", (t.getBoundingClientRect().top - vh) * .6);
         for (const s of scenes) {
           const r = s.getBoundingClientRect();
           const span = s.offsetHeight - vh;
@@ -547,25 +482,20 @@
           if (s.dataset.track !== undefined) {
             const t = s.querySelector(".track");
             t.style.transform = `translate3d(${-(t.scrollWidth - innerWidth) * p}px,0,0)`;
-            for (const k of packs) {
-              const r2 = k.getBoundingClientRect(), d = (r2.left + r2.width / 2 - innerWidth / 2) / innerWidth;
-              const m = innerWidth < 860 ? .45 : 1;
-              k.style.transform = `translateY(${Math.abs(d) * 60 * m}px) rotate(${d * 10 * m}deg)`;
-            }
           }
-          if (s.id === "hero") once("flash", p > .5, flash);
-          if (s.id === "bayar") once("stamp", p > +s.dataset.flag, () => setTimeout(() => confetti(...at(s.querySelector(".stamp")), 110), 260));
-          if (s.id === "galeri") once("gal", p > .92, () => { flash(); confetti(innerWidth / 2, innerHeight * .85, 70, 1.3); });
           if (s.dataset.flag) s.classList.toggle("on", p > +s.dataset.flag);
           if (s === sieve) {
             const step = p < .18 ? 0 : p < .42 ? 1 : p < .66 ? 2 : 3;
             s.dataset.step = step;
             [1, 2, 3].forEach((n) => s.classList.toggle("on" + n, step >= n));
-            once("sieve", step === 3, () => confetti(...at(s.querySelector(".sheet")), 120));
+            if (step === 3 && !foundOnce) {
+              foundOnce = true;
+              const b = sheet.getBoundingClientRect();
+              setTimeout(() => confetti(b.left + b.width / 2, b.top + b.height * .7, 45), 500);
+            }
+            if (step < 3) foundOnce = false;
           }
         }
-        const cr = closeEl.getBoundingClientRect();
-        once("close", cr.top < vh * .55, () => { confetti(innerWidth * .1, vh, 80, .7); confetti(innerWidth * .9, vh, 80, .7); });
       };
       const ask = () => { if (!queued) { queued = true; requestAnimationFrame(tick); } };
       addEventListener("scroll", ask, { passive: true });
